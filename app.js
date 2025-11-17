@@ -19,26 +19,23 @@ const EVENT = {
 // Tài khoản dùng cho 1 sự kiện (không cần bảo mật cao)
 // role: "owner" => xem được Thống kê, "guest" => khách bình thường
 const USERS = {
-  const USERS = {
   "bethucute":  { pw: "29090302", role: "owner", name: "Chủ sở hữu" },
-  "ethreal": { pw: "29092003",     role: "guest", name: "Anh Quỳnh" },
-  "yellowperson": { pw: "07102002",     role: "guest", name: "Hồng Nhung" },
-  "cogaitamlinh": { pw: "11102002",     role: "guest", name: "Nguyễn Ngọc" },
-  "dangthu": { pw: "15122003",     role: "guest", name: "Đặng Thư" },
-  "cholongnach": { pw: "02032002",     role: "guest", name: "Linh Nhi" },
-  "nguyenthu": { pw: "12062002",     role: "guest", name: "Minh Thư" },
-  "nhuy": { pw: "29012004",     role: "guest", name: "Như Ý" },
-  "baodepgai": { pw: "02052003",     role: "guest", name: "Huỳnh Như" },
-  "chidep": { pw: "08112001",     role: "guest", name: "Tường Di" },
-  "cotbao": { pw: "22122002",     role: "guest", name: "Bùi Ngọc Tiến" },
-  "xuanmai": { pw: "16062003",     role: "guest", name: "Xuân Mai" },
-  "tramkelly": { pw: "23032001",     role: "guest", name: "Trâm Kelly" },
+  "ethreal": { pw: "29092003", role: "guest", name: "Anh Quỳnh" },
+  "yellowperson": { pw: "07102002", role: "guest", name: "Hồng Nhung" },
+  "cogaitamlinh": { pw: "11102002", role: "guest", name: "Nguyễn Ngọc" },
+  "dangthu": { pw: "15122003", role: "guest", name: "Đặng Thư" },
+  "cholongnach": { pw: "02032002", role: "guest", name: "Linh Nhi" },
+  "nguyenthu": { pw: "12062002", role: "guest", name: "Minh Thư" },
+  "nhuy": { pw: "29012004", role: "guest", name: "Như Ý" },
+  "baodepgai": { pw: "02052003", role: "guest", name: "Huỳnh Như" },
+  "chidep": { pw: "08112001", role: "guest", name: "Tường Di" },
+  "cotbao": { pw: "22122002", role: "guest", name: "Bùi Ngọc Tiến" },
+  "xuanmai": { pw: "16062003", role: "guest", name: "Xuân Mai" },
+  "tramkelly": { pw: "23032001", role: "guest", name: "Trâm Kelly" },
   "thuyhiencocuocgoikhac":{ pw: "23032001", role: "guest", name: "Thúy Hiền" },
   "lovisong2":{ pw: "22052000", role: "guest", name: "Như Ngọc" },
-  "baisau": { pw: "07052002",     role: "guest", name: "Thảo chó" },
+  "baisau": { pw: "07052002", role: "guest", name: "Thảo chó" }
 };
-
-
 // ========= STATE =========
 
 const state = {
@@ -56,7 +53,35 @@ const state = {
 
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+// ======== YouTube music (play once after login) ========
+let ytPlayer = null;
+let ytReady = false;
+let ytPendingPlay = false;
 
+// API sẽ gọi hàm này khi tải xong
+window.onYouTubeIframeAPIReady = function(){
+  ytPlayer = new YT.Player('yt-player', {
+    videoId: 'ogE3MkqJ12M',              // id bài bạn gửi
+    playerVars: {
+      autoplay: 0, controls: 0, rel: 0,
+      modestbranding: 1, playsinline: 1
+    },
+    events: {
+      onReady: () => { ytReady = true; if (ytPendingPlay) { ytPendingPlay = false; playMusicOnce(); } }
+    }
+  });
+};
+
+// Gọi hàm này để phát 1 lần (đến hết bài, không lặp)
+function playMusicOnce(){
+  if (!ytPlayer || !ytReady || !ytPlayer.playVideo) {
+    ytPendingPlay = true;  // đợi API sẵn sàng
+    return;
+  }
+  try { ytPlayer.stopVideo(); } catch(e){}
+  ytPlayer.seekTo(0, true);
+  ytPlayer.playVideo();
+}
 // ========= KHỞI TẠO =========
 
 document.addEventListener("DOMContentLoaded", init);
@@ -155,29 +180,26 @@ function showView(hash){
 }
 
 // ========= ĐĂNG NHẬP / ĐĂNG XUẤT =========
-
 function bindLogin(){
   const form = $("#loginForm");
   if (!form) return;
 
-  // NÚT HIỆN / ẨN MẬT KHẨU
+  // Nút hiện/ẩn mật khẩu
   const passInput = $("#password");
   const toggleBtn = $("#togglePassword");
   if (passInput && toggleBtn){
     toggleBtn.addEventListener("click", ()=>{
       const isHidden = passInput.type === "password";
       passInput.type = isHidden ? "text" : "password";
-      // đổi icon cho vui
       toggleBtn.textContent = isHidden ? "🙈" : "👁";
     });
   }
 
-  // XỬ LÝ SUBMIT ĐĂNG NHẬP
   form.addEventListener("submit", (e)=>{
     e.preventDefault();
 
     const username = $("#username").value.trim();
-    const password = $("#password").value.trim();   // 👈 sửa lỗi + thêm trim
+    const password = $("#password").value.trim();   // quan trọng!
     const msg = $("#loginMsg");
 
     const u = USERS[username];
@@ -192,10 +214,8 @@ function bindLogin(){
 
       msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
 
-      // Nếu bạn có hàm nhạc, gọi ở đây
-      if (typeof playMusicOnce === "function") {
-        playMusicOnce();
-      }
+      // 🔊 phát nhạc YouTube 1 lần
+      playMusicOnce();
 
       enableNav();
       showView("#home");
