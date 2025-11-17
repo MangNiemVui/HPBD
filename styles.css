@@ -125,8 +125,9 @@ body{
 .card.greeting{
   text-align:center;
   padding:26px 20px;
-  background: linear-gradient(135deg, #ffe6f2 0%, #fff2f8 100%);
+  background: #ffe6f2; /* Hồng pastel nhẹ */
   border: 1px solid #ffcce0;
+  backdrop-filter: none; /* bỏ hiệu ứng mờ nếu muốn */
 }
 
 /* ================== TEXT ================== */
