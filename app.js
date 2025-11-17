@@ -2,7 +2,7 @@
 const OWNER_EMAIL = "phanthu27112002@gmail.com";
 
 // Dán URL Web App của Apps Script (bước 4)
-const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycby8JzTh4Wx7AQiT3IxxoDiiiv18gMXtLsCPlkA0y9c/dev";
+const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbws_1ip_rdyj5tq1EYWqiLngTDivE6hxx4c6XPP4XLunbjT9I3cRKwnDxmyxAH2pvmD/exec";
 
 // Khóa quản trị để xem thống kê (đặt giống trong Apps Script)
 const ADMIN_KEY = "29090302";
