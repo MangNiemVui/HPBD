@@ -288,9 +288,12 @@ function animateTypeLine(sel, speed=22){
 }
 
 // ========= THỐNG KÊ (OWNER) =========
-
 function bindStats(){
   $("#reloadStatsBtn")?.addEventListener("click", loadStats);
+
+  $("#sendGroupCap3")?.addEventListener("click", () => sendGroupInvites("cap3"));
+  $("#sendGroupNhau")?.addEventListener("click", () => sendGroupInvites("nhau"));
+  $("#sendGroupRieng")?.addEventListener("click", () => sendGroupInvites("rieng"));
 }
 
 async function loadStats(){
@@ -320,6 +323,7 @@ async function loadStats(){
         throw new Error(data && data.error || "stats_failed");
       }
 
+      // tổng số
       $("#statTotal").textContent = data.summary?.total ?? 0;
       $("#statYes").textContent   = data.summary?.rsvp?.["Đi"] ?? 0;
       $("#statNo").textContent    = data.summary?.rsvp?.["Không đi"] ?? 0;
@@ -333,8 +337,10 @@ async function loadStats(){
           <td>${escapeHtml(r.displayName || r.username || "")}</td>
           <td>${escapeHtml(r.rsvp || "")}</td>
           <td>${escapeHtml(r.food || "")}</td>
+          <td>${escapeHtml(r.group || "")}</td>      <!-- Nhóm -->
           <td>${escapeHtml(r.freeDate || "")}</td>
           <td>${escapeHtml(r.freeTime || "")}</td>
+          <td>${escapeHtml(r.email || "")}</td>      <!-- Gmail -->
           <td>${escapeHtml(r.notes || "")}</td>
           <td>${escapeHtml(r.updatedAt || "")}</td>`;
         tb.appendChild(tr);
@@ -361,6 +367,7 @@ async function loadStats(){
     try{ s.remove(); }catch(e){}
   }
 }
+
 
 // ========= GỬI DỮ LIỆU LÊN APPS SCRIPT =========
 
