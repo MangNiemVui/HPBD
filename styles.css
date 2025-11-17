@@ -430,6 +430,7 @@ textarea{
 }
 
 /* ================== RESPONSIVE ================== */
+/* ================== RESPONSIVE ================== */
 
 @media (max-width:900px){
   .login-grid{
@@ -444,9 +445,36 @@ textarea{
 }
 
 @media (max-width:600px){
+  /* Container & card nhỏ lại một chút */
   .container{
-    padding:0 12px 40px;
+    padding:0 10px 40px;
   }
+  .card{
+    padding:16px;
+  }
+
+  /* Header: cho brand + menu xuống 2 dòng, chữ nhỏ lại để không tràn */
+  .site-header{
+    flex-wrap:wrap;
+    gap:6px;
+    padding:10px 12px;
+  }
+  .brand span{
+    font-size:0.9rem;
+    white-space:nowrap;
+  }
+  .nav{
+    width:100%;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .nav-link{
+    font-size:0.8rem;
+    padding:6px 10px;
+  }
+
+  /* Hàng nút / actions xếp dọc cho đỡ chật */
   .actions{
     flex-direction:column;
     align-items:flex-start;
@@ -455,7 +483,29 @@ textarea{
     flex-direction:column-reverse;
     align-items:flex-start;
   }
+
+  /* Các nhóm lựa chọn (đi / quán ăn / nhóm / thời gian) xếp dọc */
+  .rsvp,
+  .food-inline,
+  .time-inline{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .rsvp label,
+  .food-inline label,
+  .time-inline label{
+    width:100%;
+  }
+
+  /* Thống kê: chữ nhỏ lại, cho bảng trượt ngang nếu cần */
   .stats-summary{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr 1fr;
+  }
+  .table{
+    font-size:0.8rem;
+  }
+  .table-wrap{
+    overflow-x:auto;
   }
 }
+
