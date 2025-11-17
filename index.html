@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <!-- Confetti (CDN). Nếu không tải được, app vẫn chạy bình thường -->
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script defer src="app.js"></script>
 </head>
@@ -21,45 +20,71 @@
       <button class="nav-link" data-nav="#home" disabled>Home</button>
       <button class="nav-link" data-nav="#food" disabled>Lựa chọn quán ăn</button>
       <button class="nav-link" data-nav="#time" disabled>Lựa chọn thời gian</button>
+      <button class="nav-link" data-nav="#stats" id="statsNav" disabled>Thống kê</button>
       <button class="nav-link nav-logout" id="logoutBtn" disabled>Đăng xuất</button>
     </nav>
   </header>
 
   <main id="app" class="container">
-    <!-- Màn đăng nhập -->
+
+    <!-- Đăng nhập: layout 2 cột - ảnh bên trái, form bên phải -->
     <section id="login" class="view show" aria-labelledby="loginTitle">
-      <h1 id="loginTitle">Đăng nhập</h1>
-      <p class="muted">Mỗi khách sẽ được chủ web cấp <strong>tên đăng nhập</strong> và <strong>mật khẩu</strong>.</p>
-      <form id="loginForm" class="card" autocomplete="off">
-        <label for="username">Tên đăng nhập</label>
-        <input id="username" name="username" required placeholder="ví dụ: khach1" />
+      <h1 id="loginTitle" class="sr-only">Đăng nhập</h1>
 
-        <label for="password">Mật khẩu</label>
-        <input id="password" name="password" type="password" required placeholder="••••" />
+      <div class="login-grid">
+        <!-- BÊN TRÁI: Ảnh + caption -->
+        <aside class="login-hero card">
+          <img src="assets/login-hero.jpg" alt="Ảnh trang đăng nhập" />
+          <div class="hero-caption">Bạn đã sẵn sàng chưa?</div>
+        </aside>
 
-        <label class="inline">
-          <input type="checkbox" id="rememberMe" /> Ghi nhớ tôi trên máy này
-        </label>
+        <!-- BÊN PHẢI: Form -->
+        <div>
+          <h2 style="margin-top:0">Đăng nhập</h2>
+          <p class="muted">Mỗi khách sẽ được chủ web cấp <strong>tên đăng nhập</strong> và <strong>mật khẩu</strong>.</p>
 
-        <button type="submit" class="btn btn-primary">Đăng nhập</button>
-        <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
-        <details class="hint">
-          <summary>Tài khoản demo để thử</summary>
-          <div><code>khach1 / 1234</code> hoặc <code>khach2 / 5678</code></div>
-        </details>
-      </form>
+          <form id="loginForm" class="card" autocomplete="off">
+            <label for="username">Tên đăng nhập</label>
+            <input id="username" name="username" required placeholder="ví dụ: khach1" />
+
+            <label for="password">Mật khẩu</label>
+            <input id="password" name="password" type="password" required placeholder="••••" />
+
+            <div class="login-row">
+              <label class="inline">
+                <input type="checkbox" id="rememberMe" /> Ghi nhớ tôi trên máy này
+              </label>
+              <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            </div>
+
+            <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
+            <details class="hint">
+              <summary>Tài khoản demo để thử</summary>
+             <!--
+                <details class="hint">
+                <summary>Tài khoản demo để thử</summary>
+                <div>
+                Chủ sở hữu: <code>owner / admin123</code><br>
+                Khách: <code>khach1 / 1234</code>, <code>khach2 / 5678</code>
+                </div>
+              </details>
+              -->
+
+          
+          </form>
+        </div>
+      </div>
     </section>
 
     <!-- Home: thiệp + thông tin -->
     <section id="home" class="view" aria-labelledby="homeTitle">
       <h2 id="homeTitle" class="sr-only">Thiệp mời</h2>
 
-      <!-- Thiệp + pháo giấy -->
       <div id="card" class="card greeting">
         <div class="card-inner">
           <p id="cardLine1" class="type-line">🎊 Chúc mừng bạn nhận được thiệp mời sinh nhật!</p>
-          <p id="cardLine2" class="type-line">Bạn được mời tham dự sinh nhật của...</p>
-          <button id="seeMoreBtn" class="btn btn-secondary">Xem tiếp thông tin</button>
+          <p id="cardLine2" class="type-line">Bạn được mời tham dự sinh nhật của bé Thư cute</p>
+          <button id="seeMoreBtn" class="btn btn-secondary">Lựa chọn những điều dưới đây để biết sắp xếp</button>
         </div>
       </div>
 
@@ -71,9 +96,12 @@
 
         <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
 
+        <!-- Câu bạn yêu cầu -->
+        <p class="type-line muted" id="detailIntro">👉 Bạn hãy lựa chọn những điều sau:</p>
+
         <ul class="event-info">
-          <li><strong>Thời gian:</strong> <span id="eventTime">19:00, 27/11/2025</span></li>
-          <li><strong>Địa điểm:</strong> <span id="eventAddress">Nhà hàng ABC, 123 Đường XYZ, Quận 1, TP.HCM</span></li>
+          <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
+          <li><strong>Địa điểm:</strong> <span id="eventAddress">Chưa chốt (từ từ đi mấy bé)</span></li>
         </ul>
 
         <fieldset class="rsvp">
@@ -84,7 +112,7 @@
         </fieldset>
 
         <div class="actions">
-          <button id="completeBtn" class="btn btn-primary">Hoàn thành</button>
+          <button id="saveRsvpBtn" class="btn btn-primary">Lưu thông tin</button>
           <span id="submitMsg" class="msg"></span>
         </div>
       </div>
@@ -102,8 +130,10 @@
           <label><input type="radio" name="food" value="Hàn" /> Hàn</label>
           <label><input type="radio" name="food" value="Việt" /> Việt</label>
         </fieldset>
-        <button class="btn btn-primary" type="submit">Lưu lựa chọn</button>
-        <span id="foodMsg" class="msg"></span>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Lưu lựa chọn</button>
+          <span id="foodMsg" class="msg"></span>
+        </div>
       </form>
     </section>
 
@@ -114,23 +144,79 @@
         <p><strong>Bạn rảnh mấy giờ?</strong></p>
         <label for="freeDate">Ngày</label>
         <input type="date" id="freeDate" required />
-
         <label for="freeTime">Giờ</label>
         <input type="time" id="freeTime" required />
-
         <label for="notes">Ghi chú (tuỳ chọn)</label>
         <textarea id="notes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
 
-        <button class="btn btn-primary" type="submit">Lưu thời gian</button>
-        <span id="timeMsg" class="msg"></span>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Lưu thời gian</button>
+          <span id="timeMsg" class="msg"></span>
+        </div>
+
+        <!-- Sau khi lưu sẽ hiện nút Hoàn thành -->
+        <div id="finalizeSection" class="actions hidden">
+          <button id="finalizeBtn" class="btn btn-primary" type="button">Hoàn thành</button>
+          <span id="finalizeMsg" class="msg"></span>
+        </div>
       </form>
+    </section>
+
+    <!-- Thống kê (chỉ chủ sở hữu thấy) -->
+    <section id="stats" class="view" aria-labelledby="statsTitle">
+      <h2 id="statsTitle">Thống kê RSVP</h2>
+
+      <div class="card stats-summary">
+        <div class="stat">
+          <div class="stat-label">Tổng khách</div>
+          <div id="statTotal" class="stat-value">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Đi</div>
+          <div id="statYes" class="stat-value">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Không đi</div>
+          <div id="statNo" class="stat-value">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Chưa chắc</div>
+          <div id="statMaybe" class="stat-value">0</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="actions" style="justify-content: space-between;">
+          <strong>Danh sách chi tiết</strong>
+          <button id="reloadStatsBtn" class="btn btn-secondary" type="button">Tải lại</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="statsTable">
+            <thead>
+              <tr>
+                <th>Tài khoản</th>
+                <th>Đi/Không</th>
+                <th>Quán ăn</th>
+                <th>Ngày</th>
+                <th>Giờ</th>
+                <th>Ghi chú</th>
+                <th>Cập nhật</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <span id="statsMsg" class="msg"></span>
+      </div>
     </section>
 
     <!-- Cảm ơn -->
     <section id="thanks" class="view" aria-labelledby="thanksTitle">
       <h2 id="thanksTitle" class="sr-only">Lời cảm ơn</h2>
       <div class="card thanks">
-        <img src="assets/cat-thanks.jpg" alt="Mèo cảm ơn" class="thanks-gif" />
+        <img src="assets/cat-thanks.pnj" alt="Mèo cảm ơn" class="thanks-pnj" />
         <p class="thanks-text">Cảm ơn bạn! Hẹn gặp lại ở bữa tiệc 🎂</p>
         <button class="btn btn-secondary" data-nav="#home">Về Home</button>
       </div>
@@ -138,7 +224,7 @@
   </main>
 
   <footer class="site-footer">
-    <small>© 2025. Thiệp mời sinh nhật – Thiết kế bởi bạn ❤️</small>
+    <small>© 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</small>
   </footer>
 </body>
 </html>
