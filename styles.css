@@ -1,14 +1,37 @@
 :root{
-  --bg: radial-gradient(1200px 800px at 10% 0%, #2b2f77 0%, #111428 50%, #0a0c1a 100%);
-  --glass: rgba(255,255,255,.08);
-  --glass-strong: rgba(255,255,255,.16);
-  --text: #e9ecf1;
-  --muted: #a9b0bd;
-  --primary: #7c5cff;
-  --primary-contrast: #fff;
-  --shadow: 0 8px 30px rgba(0,0,0,.35);
+  /* === PALETTE PASTEL – bạn thay đổi các màu ở đây === */
+  --bg: linear-gradient(180deg, #fff6fb 0%, #f7fbff 60%, #eefcff 100%); /* nền pastel hồng → xanh nhạt */
+  --glass: rgba(255,255,255,.70);           /* độ trong suốt thẻ */
+  --glass-strong: rgba(255,255,255,.85);
+  --text: #2b2b2b;                           /* chữ chính trên nền sáng */
+  --muted: #6b7280;                          /* chữ mờ */
+  --primary: #ff8fab;                        /* màu nút chính (pastel hồng) */
+  --primary-contrast: #ffffff;               /* chữ trên nút chính */
+  --shadow: 0 8px 30px rgba(152, 160, 180, .25);
   --radius: 16px;
 }
+
+/* gợi ý: để pastel sáng dễ đọc hơn */
+.card{
+  background: rgba(255,255,255,.86);
+  border: 1px solid #e9edf3;
+  box-shadow: var(--shadow);
+}
+
+input,textarea{
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid #e5e7eb;
+}
+
+.nav-link{
+  background: var(--glass-strong);
+  border: 1px solid #e9edf3;
+}
+.nav-logout{ background:#fff; }
+
+.msg{ color:#2563eb; } /* xanh dương nhạt */
+
 
 *{box-sizing:border-box}
 html,body{height:100%}
