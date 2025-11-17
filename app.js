@@ -19,23 +19,25 @@ const EVENT = {
 // Tài khoản dùng cho 1 sự kiện (không cần bảo mật cao)
 // role: "owner" => xem được Thống kê, "guest" => khách bình thường
 const USERS = {
+  const USERS = {
   "bethucute":  { pw: "29090302", role: "owner", name: "Chủ sở hữu" },
-  "ethreal": { pw: "290903",     role: "guest", name: "Anh Quỳnh" },
-  "yellowperson": { pw: "071002",     role: "guest", name: "Hồng Nhung" },
-  "cogaitamlinh": { pw: "111002",     role: "guest", name: "Nguyễn Ngọc" },
-  "dangthu": { pw: "151203",     role: "guest", name: "Đặng Thư" },
-  "cholongnach": { pw: "020302",     role: "guest", name: "Linh Nhi" },
-  "nguyenthu": { pw: "120602",     role: "guest", name: "Minh Thư" },
-  "nhuy": { pw: "290104",     role: "guest", name: "Như Ý" },
-  "baodepgai": { pw: "020503",     role: "guest", name: "Huỳnh Như" },
-  "chidep": { pw: "081101",     role: "guest", name: "Tường Di" },
-  "cotbao": { pw: "221202",     role: "guest", name: "Bùi Ngọc Tiến" },
-  "xuanmai": { pw: "160603",     role: "guest", name: "Xuân Mai" },
-  "tramkelly": { pw: "230301",     role: "guest", name: "Trâm Kelly" },
+  "ethreal": { pw: "29092003",     role: "guest", name: "Anh Quỳnh" },
+  "yellowperson": { pw: "07102002",     role: "guest", name: "Hồng Nhung" },
+  "cogaitamlinh": { pw: "11102002",     role: "guest", name: "Nguyễn Ngọc" },
+  "dangthu": { pw: "15122003",     role: "guest", name: "Đặng Thư" },
+  "cholongnach": { pw: "02032002",     role: "guest", name: "Linh Nhi" },
+  "nguyenthu": { pw: "12062002",     role: "guest", name: "Minh Thư" },
+  "nhuy": { pw: "29012004",     role: "guest", name: "Như Ý" },
+  "baodepgai": { pw: "02052003",     role: "guest", name: "Huỳnh Như" },
+  "chidep": { pw: "08112001",     role: "guest", name: "Tường Di" },
+  "cotbao": { pw: "22122002",     role: "guest", name: "Bùi Ngọc Tiến" },
+  "xuanmai": { pw: "16062003",     role: "guest", name: "Xuân Mai" },
+  "tramkelly": { pw: "23032001",     role: "guest", name: "Trâm Kelly" },
   "thuyhiencocuocgoikhac":{ pw: "23032001", role: "guest", name: "Thúy Hiền" },
-  "lovisong2":{ pw: "220500", role: "guest", name: "Như Ngọc" },
- "baisau": { pw: "070502",     role: "guest", name: "Thảo chó" },
+  "lovisong2":{ pw: "22052000", role: "guest", name: "Như Ngọc" },
+  "baisau": { pw: "07052002",     role: "guest", name: "Thảo chó" },
 };
+
 
 // ========= STATE =========
 
