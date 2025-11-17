@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thiệp mời sinh nhật – Phan Ánh Ngọc Thư</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Confetti (CDN). Nếu không tải được, app vẫn chạy bình thường -->
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand" role="banner" aria-label="Thiệp mời sinh nhật">
+      🎉 <span>Sinh nhật Phan Ánh Ngọc Thư</span>
+    </div>
+    <nav class="nav" aria-label="Điều hướng chính">
+      <button class="nav-link" data-nav="#home" disabled>Home</button>
+      <button class="nav-link" data-nav="#food" disabled>Lựa chọn quán ăn</button>
+      <button class="nav-link" data-nav="#time" disabled>Lựa chọn thời gian</button>
+      <button class="nav-link nav-logout" id="logoutBtn" disabled>Đăng xuất</button>
+    </nav>
+  </header>
+
+  <main id="app" class="container">
+    <!-- Màn đăng nhập -->
+    <section id="login" class="view show" aria-labelledby="loginTitle">
+      <h1 id="loginTitle">Đăng nhập</h1>
+      <p class="muted">Mỗi khách sẽ được chủ web cấp <strong>tên đăng nhập</strong> và <strong>mật khẩu</strong>.</p>
+      <form id="loginForm" class="card" autocomplete="off">
+        <label for="username">Tên đăng nhập</label>
+        <input id="username" name="username" required placeholder="ví dụ: khach1" />
+
+        <label for="password">Mật khẩu</label>
+        <input id="password" name="password" type="password" required placeholder="••••" />
+
+        <label class="inline">
+          <input type="checkbox" id="rememberMe" /> Ghi nhớ tôi trên máy này
+        </label>
+
+        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+        <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
+        <details class="hint">
+          <summary>Tài khoản demo để thử</summary>
+          <div><code>khach1 / 1234</code> hoặc <code>khach2 / 5678</code></div>
+        </details>
+      </form>
+    </section>
+
+    <!-- Home: thiệp + thông tin -->
+    <section id="home" class="view" aria-labelledby="homeTitle">
+      <h2 id="homeTitle" class="sr-only">Thiệp mời</h2>
+
+      <!-- Thiệp + pháo giấy -->
+      <div id="card" class="card greeting">
+        <div class="card-inner">
+          <p id="cardLine1" class="type-line">🎊 Chúc mừng bạn nhận được thiệp mời sinh nhật!</p>
+          <p id="cardLine2" class="type-line">Bạn được mời tham dự sinh nhật của...</p>
+          <button id="seeMoreBtn" class="btn btn-secondary">Xem tiếp thông tin</button>
+        </div>
+      </div>
+
+      <!-- Thông tin chi tiết -->
+      <div id="details" class="card details hidden" aria-live="polite">
+        <div class="avatar-wrap">
+          <img src="assets/avatar.jpg" alt="Ảnh đại diện" class="avatar" />
+        </div>
+
+        <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
+
+        <ul class="event-info">
+          <li><strong>Thời gian:</strong> <span id="eventTime">19:00, 27/11/2025</span></li>
+          <li><strong>Địa điểm:</strong> <span id="eventAddress">Nhà hàng ABC, 123 Đường XYZ, Quận 1, TP.HCM</span></li>
+        </ul>
+
+        <fieldset class="rsvp">
+          <legend>Bạn có đi không?</legend>
+          <label><input type="radio" name="rsvp" value="Đi" /> Đi</label>
+          <label><input type="radio" name="rsvp" value="Không đi" /> Không đi</label>
+          <label><input type="radio" name="rsvp" value="Chưa chắc" /> Chưa chắc</label>
+        </fieldset>
+
+        <div class="actions">
+          <button id="completeBtn" class="btn btn-primary">Hoàn thành</button>
+          <span id="submitMsg" class="msg"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lựa chọn quán ăn -->
+    <section id="food" class="view" aria-labelledby="foodTitle">
+      <h2 id="foodTitle">Lựa chọn quán ăn</h2>
+      <form id="foodForm" class="card">
+        <fieldset>
+          <legend>Chọn phong cách bạn thích</legend>
+          <label><input type="radio" name="food" value="Quán Thái" /> Quán Thái</label>
+          <label><input type="radio" name="food" value="Nướng" /> Nướng</label>
+          <label><input type="radio" name="food" value="Nhậu" /> Nhậu</label>
+          <label><input type="radio" name="food" value="Hàn" /> Hàn</label>
+          <label><input type="radio" name="food" value="Việt" /> Việt</label>
+        </fieldset>
+        <button class="btn btn-primary" type="submit">Lưu lựa chọn</button>
+        <span id="foodMsg" class="msg"></span>
+      </form>
+    </section>
+
+    <!-- Lựa chọn thời gian -->
+    <section id="time" class="view" aria-labelledby="timeTitle">
+      <h2 id="timeTitle">Lựa chọn thời gian</h2>
+      <form id="timeForm" class="card">
+        <p><strong>Bạn rảnh mấy giờ?</strong></p>
+        <label for="freeDate">Ngày</label>
+        <input type="date" id="freeDate" required />
+
+        <label for="freeTime">Giờ</label>
+        <input type="time" id="freeTime" required />
+
+        <label for="notes">Ghi chú (tuỳ chọn)</label>
+        <textarea id="notes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
+
+        <button class="btn btn-primary" type="submit">Lưu thời gian</button>
+        <span id="timeMsg" class="msg"></span>
+      </form>
+    </section>
+
+    <!-- Cảm ơn -->
+    <section id="thanks" class="view" aria-labelledby="thanksTitle">
+      <h2 id="thanksTitle" class="sr-only">Lời cảm ơn</h2>
+      <div class="card thanks">
+        <img src="assets/cat-thanks.gif" alt="Mèo cảm ơn" class="thanks-gif" />
+        <p class="thanks-text">Cảm ơn bạn! Hẹn gặp lại ở bữa tiệc 🎂</p>
+        <button class="btn btn-secondary" data-nav="#home">Về Home</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© 2025. Thiệp mời sinh nhật – Thiết kế bởi bạn ❤️</small>
+  </footer>
+</body>
+</html>
