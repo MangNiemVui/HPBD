@@ -1,23 +1,15 @@
 // ========= CẤU HÌNH =========
 
-// Email nhận thông tin RSVP
 const OWNER_EMAIL = "phanthu27112002@gmail.com";
-
-// DÁN URL Web App của Google Apps Script vào đây (dạng .../exec)
 const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxwGGVPIQ05DjcW-KGpX-Gb4OH53RZLbf1YeQ7ks2wtScnZS7rMoY0wcnhKws51fA_C/exec";
-
-// Chuỗi bí mật phải trùng với ADMIN_KEY trong Apps Script
 const ADMIN_KEY = "29090302";
 
-// Thông tin sự kiện
 const EVENT = {
   name: "Sinh nhật Phan Ánh Ngọc Thư",
   timeText: "Dự kiến 28/11/2025",
   addressText: "Chưa chốt (từ từ đi mấy bé)"
 };
 
-// Tài khoản dùng cho 1 sự kiện (không cần bảo mật cao)
-// role: "owner" => xem được Thống kê, "guest" => khách bình thường
 const USERS = {
   "bethucute":  { pw: "29090302", role: "owner", name: "Chủ sở hữu" },
   "ethreal": { pw: "29092003", role: "guest", name: "Anh Quỳnh" },
@@ -38,6 +30,7 @@ const USERS = {
 };
 
 // ========= STATE =========
+
 const state = {
   user: null,
   role: null,
@@ -70,16 +63,16 @@ function playMusicOnce(){
   audio.currentTime = 0;
   audio.play().catch(err => {
     console.warn("Không phát được nhạc:", err);
-    // Nếu fail (do browser chặn), cho phép thử lại ở lần tương tác kế tiếp
+    // nếu bị chặn, lần sau user tương tác lại vẫn cho thử
     musicInited = false;
   });
 }
 
 // ========= KHỞI TẠO =========
+
 document.addEventListener("DOMContentLoaded", init);
 
 function init(){
-  // Set thông tin event ra UI
   const timeEl = $("#eventTime");
   const addrEl = $("#eventAddress");
   if(timeEl) timeEl.textContent = EVENT.timeText;
@@ -91,7 +84,6 @@ function init(){
   bindStats();
   bindLogout();
 
-  // Tự đăng nhập nếu còn session
   const saved = localStorage.getItem("sessionUser");
   if(saved && USERS[saved]){
     const user = USERS[saved];
@@ -107,12 +99,11 @@ function init(){
 }
 
 // ========= NAVIGATION =========
+
 function bindNav(){
-  // Bất cứ element nào có data-nav đều dùng để chuyển view
   $$("[data-nav]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
       const to = e.currentTarget.getAttribute("data-nav");
-      // Nếu là nút nav chính và đang disabled thì không cho bấm
       if (e.currentTarget.classList.contains("nav-link") && e.currentTarget.disabled) {
         return;
       }
@@ -129,12 +120,10 @@ function bindNav(){
 function enableNav(){
   $$(".nav-link").forEach(b => b.disabled = false);
 
-  // Ẩn nav "Lựa chọn quán ăn" & "Lựa chọn thời gian" vì đã gom vào Home
   document.querySelectorAll('[data-nav="#food"],[data-nav="#time"]').forEach(btn=>{
     btn.style.display = "none";
   });
 
-  // Chỉ owner mới thấy Thống kê
   const statsNav = $("#statsNav");
   if(statsNav){
     if(state.role === "owner"){
@@ -148,9 +137,7 @@ function enableNav(){
 }
 
 function disableNavExceptLogin(){
-  $$(".nav-link").forEach(b => {
-    b.disabled = true;
-  });
+  $$(".nav-link").forEach(b => { b.disabled = true; });
 }
 
 function showView(hash){
@@ -158,13 +145,11 @@ function showView(hash){
 
   const id = hash.startsWith("#") ? hash.slice(1) : hash;
 
-  // Chặn vào #stats nếu không phải owner
   if(id === "stats" && state.role !== "owner"){
     alert("Chỉ chủ sở hữu mới xem được Thống kê.");
     return showView("#home");
   }
 
-  // Chặn vào #home / #thanks khi chưa đăng nhập
   if ((id === "home" || id === "thanks") && !state.user){
     alert("Bạn cần đăng nhập trước.");
     return showView("#login");
@@ -182,11 +167,11 @@ function showView(hash){
 }
 
 // ========= ĐĂNG NHẬP / ĐĂNG XUẤT =========
+
 function bindLogin(){
   const form = $("#loginForm");
   if (!form) return;
 
-  // Nút hiện/ẩn mật khẩu
   const passInput = $("#password");
   const toggleBtn = $("#togglePassword");
   if (passInput && toggleBtn){
@@ -217,7 +202,7 @@ function bindLogin(){
 
       if (msg) msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
 
-      // 🔊 phát nhạc MP3 1 lần
+      // 🔊 phát nhạc tại đây
       playMusicOnce();
 
       enableNav();
@@ -249,20 +234,18 @@ function bindLogout(){
   });
 }
 
-// ========= HOME: THIỆP & FORM TỔNG =========
+// ========= HOME =========
+
 function bindHomeFlow(){
-  // Hiện card details
   $("#seeMoreBtn")?.addEventListener("click", ()=>{
     $("#details")?.classList.remove("hidden");
     $("#details")?.scrollIntoView({behavior:"smooth", block:"start"});
   });
 
-  // Nút Hoàn thành – gom tất cả lựa chọn
   $("#homeCompleteBtn")?.addEventListener("click", async ()=>{
     const msg = $("#submitMsg");
     if (msg) msg.textContent = "";
 
-    // Bắt lỗi chưa đăng nhập ngay từ đầu
     try{
       ensureLogged();
     }catch(e){
@@ -271,7 +254,6 @@ function bindHomeFlow(){
       return;
     }
 
-    // 1. RSVP
     const rsvpInput = $$("#details input[name='rsvp']").find(i => i.checked);
     if(!rsvpInput){
       if (msg) msg.textContent = "Hãy chọn bạn có đi hay không nhé.";
@@ -279,7 +261,6 @@ function bindHomeFlow(){
     }
     const rsvpVal = rsvpInput.value;
 
-    // 2. Quán ăn (chỉ bắt buộc nếu Đi)
     let foodInput = null;
     if (rsvpVal === "Đi") {
       foodInput = $$("#details input[name='foodHome']").find(i => i.checked);
@@ -287,39 +268,31 @@ function bindHomeFlow(){
         if (msg) msg.textContent = "Hãy chọn một quán ăn bạn thích.";
         return;
       }
-    }
 
-    // 2.5 Nhóm (chỉ bắt buộc nếu Đi)
-    let groupInput = null;
-    if (rsvpVal === "Đi") {
-      groupInput = $$("#details input[name='group']").find(i => i.checked);
+      var groupInput = $$("#details input[name='group']").find(i => i.checked);
       if(!groupInput){
         if (msg) msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
         return;
       }
-    }
 
-    // 3. Khung giờ (chỉ bắt buộc nếu Đi)
-    let timeInput = null;
-    if (rsvpVal === "Đi") {
-      timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
+      var timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
       if(!timeInput){
         if (msg) msg.textContent = "T bận lắm, hãy chọn 1 trong 4 khung giờ nhé 😆.";
         return;
       }
+    } else {
+      groupInput = null;
+      timeInput = null;
     }
 
-    // 3.5 Gmail (luôn yêu cầu)
     const email = $("#homeEmail")?.value?.trim() || "";
     if(!email){
       if (msg) msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
       return;
     }
 
-    // 4. Ghi chú
     const notes = ($("#homeNotes")?.value || "").trim();
 
-    // Gán vào state
     state.rsvp     = rsvpVal;
     state.food     = foodInput ? foodInput.value : null;
     state.group    = groupInput ? groupInput.value : null;
@@ -328,7 +301,6 @@ function bindHomeFlow(){
     state.email    = email;
     state.notes    = notes || null;
 
-    // Kiểm tra cấu hình Web App trước khi gửi
     if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")){
       if (msg) msg.textContent = "Chưa cấu hình Web App – không thể lưu.";
       return;
@@ -348,7 +320,6 @@ function bindHomeFlow(){
   });
 }
 
-// Confetti + chữ gõ
 function launchWelcomeCard(){
   try{
     if(window.confetti){
@@ -377,16 +348,15 @@ function animateTypeLine(sel, speed=22){
   }, speed);
 }
 
-// ========= THỐNG KÊ (OWNER) =========
+// ========= THỐNG KÊ =========
+
 function bindStats(){
   $("#reloadStatsBtn")?.addEventListener("click", loadStats);
-
   $("#sendGroupCap3")?.addEventListener("click", () => sendGroupInvites("cap3"));
   $("#sendGroupNhau")?.addEventListener("click", () => sendGroupInvites("nhau"));
   $("#sendGroupRieng")?.addEventListener("click", () => sendGroupInvites("rieng"));
 }
 
-// Stub tránh lỗi nếu người dùng ấn nút gửi nhóm
 async function sendGroupInvites(group){
   alert("(demo) Gửi lời mời cho nhóm: " + group + "\nTính năng này chưa được triển khai server-side.");
 }
@@ -401,7 +371,6 @@ async function loadStats(){
 
   if (msg) msg.textContent = "Đang tải thống kê...";
 
-  // JSONP callback
   const cb = "__stats_cb_" + Math.random().toString(36).slice(2);
   const url = EMAIL_WEBAPP_URL
     + "?action=stats"
@@ -418,7 +387,6 @@ async function loadStats(){
         throw new Error(data && data.error || "stats_failed");
       }
 
-      // tổng số
       const totalEl = $("#statTotal");
       const yesEl   = $("#statYes");
       const noEl    = $("#statNo");
@@ -436,9 +404,6 @@ async function loadStats(){
       }
       tb.innerHTML = "";
       (data.rows || []).forEach(r=>{
-        const tr = document.createElement("tr");
-
-        // Gộp freeDate + freeTime thành 1 chuỗi "Khung giờ"
         let slot = "";
         if (r.freeTime && r.freeDate) {
           slot = r.freeDate + " – " + r.freeTime;
@@ -448,6 +413,7 @@ async function loadStats(){
           slot = r.freeDate;
         }
 
+        const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${escapeHtml(r.displayName || r.username || "")}</td>
           <td>${escapeHtml(r.rsvp || "")}</td>
@@ -482,7 +448,8 @@ async function loadStats(){
   }
 }
 
-// ========= GỬI DỮ LIỆU LÊN APPS SCRIPT =========
+// ========= GỬI DỮ LIỆU =========
+
 function ensureLogged(){
   if(!state.user){
     throw new Error("Chưa đăng nhập");
@@ -499,7 +466,6 @@ function payloadBase(){
   };
 }
 
-// Gửi tạm từng phần (giữ cho tương thích)
 async function sendPartial(type){
   if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")) return;
 
@@ -525,7 +491,6 @@ async function sendPartial(type){
   }
 }
 
-// Gửi bản tổng cuối cùng
 async function sendAll(){
   if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")) return;
 
@@ -537,7 +502,7 @@ async function sendAll(){
   data.freeTime = state.freeTime;
   data.notes = state.notes;
   data.group = state.group;
-  data.email = state.email; 
+  data.email = state.email;
 
   try{
     await fetch(EMAIL_WEBAPP_URL, {
@@ -548,11 +513,11 @@ async function sendAll(){
     });
   }catch(err){
     console.warn("sendAll error (ignored):", err);
-    // vẫn cho flow tiếp tục, user không bị kẹt
   }
 }
 
 // ========= TIỆN ÍCH =========
+
 function escapeHtml(s){
   return String(s || "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
