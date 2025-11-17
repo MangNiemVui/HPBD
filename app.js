@@ -199,6 +199,7 @@ function bindHomeFlow(){
   $("#homeCompleteBtn")?.addEventListener("click", async ()=>{
     ensureLogged();
     const msg = $("#submitMsg");
+    msg.textContent = "";
 
     // 1. RSVP
     const rsvpInput = $$("#details input[name='rsvp']").find(i => i.checked);
@@ -206,41 +207,55 @@ function bindHomeFlow(){
       msg.textContent = "Hãy chọn bạn có đi hay không nhé.";
       return;
     }
+    const rsvpVal = rsvpInput.value;
 
-    // 2. Quán ăn
-    const foodInput = $$("#details input[name='foodHome']").find(i => i.checked);
-    if(!foodInput){
-      msg.textContent = "Hãy chọn một quán ăn bạn thích.";
+    // 2. Quán ăn (chỉ bắt buộc nếu Đi)
+    let foodInput = null;
+    if (rsvpVal === "Đi") {
+      foodInput = $$("#details input[name='foodHome']").find(i => i.checked);
+      if(!foodInput){
+        msg.textContent = "Hãy chọn một quán ăn bạn thích.";
+        return;
+      }
+    }
+
+    // 2.5 Nhóm (chỉ bắt buộc nếu Đi)
+    let groupInput = null;
+    if (rsvpVal === "Đi") {
+      groupInput = $$("#details input[name='group']").find(i => i.checked);
+      if(!groupInput){
+        msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
+        return;
+      }
+    }
+
+    // 3. Khung giờ (chỉ bắt buộc nếu Đi)
+    let timeInput = null;
+    if (rsvpVal === "Đi") {
+      timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
+      if(!timeInput){
+        msg.textContent = "T bận lắm, hãy chọn 1 trong 4 khung giờ nhé 😆.";
+        return;
+      }
+    }
+
+    // 3.5 Gmail (luôn yêu cầu)
+    const email = $("#homeEmail")?.value.trim();
+    if(!email){
+      msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
       return;
     }
-// 2.5. Nhóm
-const groupInput = $$("#details input[name='group']").find(i => i.checked);
-if(!groupInput){
-  msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
-  return;
-}
-    // 3. Thời gian
-    const d = $("#homeFreeDate")?.value;
-    const t = $("#homeFreeTime")?.value;
-    if(!d || !t){
-      msg.textContent = "Hãy chọn đầy đủ ngày và giờ.";
-      return;
-    }
-// 3.5. Gmail
-const email = $("#homeEmail")?.value.trim();
-if(!email){
-  msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
-  return;
-}
+
     // 4. Ghi chú
     const notes = ($("#homeNotes")?.value || "").trim();
 
     // Gán vào state
-    state.rsvp     = rsvpInput.value;
-    state.food     = foodInput.value;
-    state.group    = groupInput.value;
-    state.freeDate = d;
-    state.freeTime = t;
+    state.rsvp     = rsvpVal;
+    state.food     = foodInput ? foodInput.value : null;
+    state.group    = groupInput ? groupInput.value : null;
+    // Lưu nguyên chuỗi khung giờ vào freeTime, freeDate để trống
+    state.freeDate = null;
+    state.freeTime = timeInput ? timeInput.value : null;
     state.email    = email;
     state.notes    = notes || null;
 
@@ -257,6 +272,7 @@ if(!email){
     }
   });
 }
+
 
 // Confetti + chữ gõ
 function launchWelcomeCard(){
