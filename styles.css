@@ -1,0 +1,116 @@
+:root{
+  --bg: radial-gradient(1200px 800px at 10% 0%, #2b2f77 0%, #111428 50%, #0a0c1a 100%);
+  --glass: rgba(255,255,255,.08);
+  --glass-strong: rgba(255,255,255,.16);
+  --text: #e9ecf1;
+  --muted: #a9b0bd;
+  --primary: #7c5cff;
+  --primary-contrast: #fff;
+  --shadow: 0 8px 30px rgba(0,0,0,.35);
+  --radius: 16px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg) fixed;
+  background-size:cover;
+}
+
+.site-header,.site-footer{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px;
+  backdrop-filter:saturate(140%) blur(10px);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.00));
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.site-footer{
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:none;
+  justify-content:center;
+}
+.brand{display:flex; gap:10px; align-items:center; font-weight:600}
+.nav{display:flex; gap:8px; flex-wrap:wrap}
+.nav-link{
+  appearance:none; border:1px solid transparent;
+  padding:8px 12px; border-radius:12px;
+  background:var(--glass-strong); color:var(--text);
+  cursor:pointer; transition:.2s transform, .2s background;
+}
+.nav-link[disabled]{opacity:.5; cursor:not-allowed}
+.nav-link:hover:not([disabled]){transform:translateY(-1px); background:var(--glass)}
+.nav-logout{background:transparent; border:1px solid rgba(255,255,255,.16)}
+
+.container{
+  width:100%;
+  max-width:980px;
+  margin:24px auto;
+  padding:0 16px 60px;
+}
+.view{display:none; animation:fadeIn .3s ease}
+.view.show{display:block}
+.hidden{display:none}
+
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+  backdrop-filter: blur(8px) saturate(140%);
+}
+
+.card.greeting{
+  text-align:center;
+  padding:26px 20px;
+}
+.card-inner{display:flex; flex-direction:column; gap:14px; align-items:center}
+.type-line{opacity:.95; font-size:1.1rem}
+.hl{color:#ffd166}
+
+.details{display:flex; flex-direction:column; gap:16px}
+.avatar-wrap{display:flex; justify-content:center}
+.avatar{
+  width:110px; height:110px; border-radius:100%;
+  object-fit:cover; border:3px solid rgba(255,255,255,.35);
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+}
+.event-title{font-size:1.35rem; text-align:center; margin:2px 0 6px}
+.event-info{list-style:none; padding:0; margin:0; display:grid; gap:6px}
+.rsvp{display:flex; gap:14px; flex-wrap:wrap; margin-top:4px}
+.rsvp label{background:rgba(255,255,255,.06); padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.12)}
+.actions{display:flex; gap:12px; align-items:center}
+
+label{display:block; margin:8px 0 6px}
+input,textarea{
+  width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.16);
+  background:rgba(0,0,0,.25); color:var(--text);
+}
+textarea{resize:vertical}
+.inline{display:flex; align-items:center; gap:8px}
+.btn{
+  appearance:none; border:none; padding:10px 14px; border-radius:12px; cursor:pointer;
+  background:rgba(255,255,255,.06); color:var(--text); transition:.2s transform,.2s background;
+}
+.btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.1)}
+.btn-primary{background:var(--primary); color:var(--primary-contrast)}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-secondary{background:rgba(255,255,255,.12)}
+
+.msg{font-size:.95rem; color:#c0e6ff; min-height:1.2em}
+.muted{color:var(--muted)}
+.hint{margin-top:8px; opacity:.85}
+.hint summary{cursor:pointer}
+
+.card.thanks{text-align:center}
+.thanks-gif{max-width:220px; width:100%; border-radius:12px}
+.thanks-text{font-size:1.1rem; margin-top:10px}
+
+.sr-only{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+
+@keyframes fadeIn{from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none}}
