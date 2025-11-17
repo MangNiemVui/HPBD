@@ -9,10 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<script src="https://www.youtube.com/iframe_api"></script>
+  <!-- Không cần chèn iframe_api ở đây, app.js sẽ tự nạp để tránh lỗi race -->
   <script defer src="app.js"></script>
 </head>
-  <div id="yt-player" style="position:fixed;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
 <body>
   <header class="site-header">
     <div class="brand" role="banner" aria-label="Thiệp mời sinh nhật">
@@ -26,6 +25,9 @@
       <button class="nav-link nav-logout" id="logoutBtn" disabled>Đăng xuất</button>
     </nav>
   </header>
+
+  <!-- Player YouTube ẩn để phát nhạc nền (PHẢI nằm trong body) -->
+  <div id="yt-player" aria-hidden="true" style="width:0;height:0;overflow:hidden;"></div>
 
   <main id="app" class="container">
 
@@ -42,15 +44,16 @@
         <!-- BÊN PHẢI -->
         <div>
           <h2 style="margin-top:0">Đăng nhập</h2>
-          <p class="muted">Tên đăng nhập là biệt danh trong face của bạn còn mật khẩu là sinh nhật của bạn(vd:27112002).</p>
+          <p class="muted">Tên đăng nhập là biệt danh trong face của bạn, mật khẩu là sinh nhật của bạn (vd: 27112002).</p>
 
           <form id="loginForm" class="card" autocomplete="off">
             <label for="username">Tên đăng nhập</label>
-            <input id="username" name="username" required placeholder="ví dụ:cholongnach🤣" />
+            <input id="username" name="username" required placeholder="ví dụ: cholongnach 🤣" />
+
             <label for="password">Mật khẩu</label>
             <div class="password-wrap">
               <input id="password" name="password" type="password" required placeholder="••••" autocomplete="current-password" />
-              <button type="button" id="togglePassword" class="toggle-pass">👁</button>
+              <button type="button" id="togglePassword" class="toggle-pass" aria-label="Hiện/ẩn mật khẩu">👁</button>
             </div>
 
             <div class="login-row">
@@ -61,16 +64,6 @@
             </div>
 
             <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
-
-            <!-- demo (đang ẩn)
-            <details class="hint">
-              <summary>Tài khoản demo để thử</summary>
-              <div>
-                Chủ sở hữu: <code>bethucute / 29090302</code><br>
-                Khách: <code>khach1 / 1234</code>, <code>khach2 / 5678</code>
-              </div>
-            </details>
-            -->
           </form>
         </div>
       </div>
@@ -96,9 +89,7 @@
 
         <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
 
-        <p class="type-line muted" id="detailIntro">
-          👉 Bạn hãy lựa chọn những điều sau:
-        </p>
+        <p class="type-line muted" id="detailIntro">👉 Bạn hãy lựa chọn những điều sau:</p>
 
         <ul class="event-info">
           <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
@@ -115,7 +106,7 @@
 
         <hr class="divider">
 
-        <!-- 2. Chọn quán ăn -->
+        <!-- 2. Quán ăn -->
         <p><strong>Lựa chọn quán ăn</strong></p>
         <div class="food-inline">
           <label><input type="radio" name="foodHome" value="Quán Thái" /> Quán Thái</label>
@@ -127,7 +118,7 @@
 
         <hr class="divider">
 
-        <!-- 3. Chọn nhóm -->
+        <!-- 3. Nhóm -->
         <p><strong>Bạn muốn đi nhóm nào?</strong></p>
         <div class="food-inline">
           <label><input type="radio" name="group" value="cap3" /> Nhóm cấp 3</label>
@@ -137,20 +128,14 @@
 
         <hr class="divider">
 
-        <!-- 4. Chọn thời gian (4 option) -->
+        <!-- 4. Thời gian (4 option) -->
         <p><strong>Bạn rảnh lúc nào?</strong></p>
-        <p class="muted" style="font-size:0.9rem;">
-          T rất bận chỉ sắp xếp được những khung giờ này, ép chọn miễn ý kiến :))
-        </p>
+        <p class="muted" style="font-size:0.9rem;">T rất bận chỉ sắp xếp được những khung giờ này, ép chọn miễn ý kiến :))</p>
         <div class="time-inline">
-          <label><input type="radio" name="timeSlot" value="Tối thứ 3 (24/11/2025)" />
-            Tối thứ 3 (24/11/2025)</label>
-          <label><input type="radio" name="timeSlot" value="Tối thứ 6 (28/11/2025)" />
-            Tối thứ 6 (28/11/2025)</label>
-          <label><input type="radio" name="timeSlot" value="Trưa thứ 7 (29/11/2025)" />
-            Trưa thứ 7 (29/11/2025)</label>
-          <label><input type="radio" name="timeSlot" value="Tối chủ nhật (30/11/2025)" />
-            Tối chủ nhật (30/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Tối thứ 3 (24/11/2025)" /> Tối thứ 3 (24/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Tối thứ 6 (28/11/2025)" /> Tối thứ 6 (28/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Trưa thứ 7 (29/11/2025)" /> Trưa thứ 7 (29/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Tối chủ nhật (30/11/2025)" /> Tối chủ nhật (30/11/2025)</label>
         </div>
 
         <!-- Gmail -->
@@ -168,29 +153,15 @@
       </div>
     </section>
 
-    <!-- (phần #food, #time cũ có thể giữ nguyên hoặc bỏ, vì Home đã gom hết) -->
-
     <!-- Thống kê (chỉ chủ sở hữu thấy) -->
     <section id="stats" class="view" aria-labelledby="statsTitle">
       <h2 id="statsTitle">Thống kê RSVP</h2>
 
       <div class="card stats-summary">
-        <div class="stat">
-          <div class="stat-label">Tổng khách</div>
-          <div id="statTotal" class="stat-value">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Đi</div>
-          <div id="statYes" class="stat-value">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Không đi</div>
-          <div id="statNo" class="stat-value">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Chưa chắc</div>
-          <div id="statMaybe" class="stat-value">0</div>
-        </div>
+        <div class="stat"><div class="stat-label">Tổng khách</div><div id="statTotal" class="stat-value">0</div></div>
+        <div class="stat"><div class="stat-label">Đi</div><div id="statYes" class="stat-value">0</div></div>
+        <div class="stat"><div class="stat-label">Không đi</div><div id="statNo" class="stat-value">0</div></div>
+        <div class="stat"><div class="stat-label">Chưa chắc</div><div id="statMaybe" class="stat-value">0</div></div>
       </div>
 
       <div class="card">
@@ -219,7 +190,7 @@
                 <th>Gmail</th>
                 <th>Ghi chú</th>
                 <th>Cập nhật</th>
-                   </tr>
+              </tr>
             </thead>
             <tbody></tbody>
           </table>
@@ -240,9 +211,9 @@
     </section>
   </main>
 
- <footer class="site-footer">
-  <div>😎 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</div>
-  <div>📞 Liên hệ khi cần: 0392290903 (lười rep lắm gọi đi) 😘</div>
+  <footer class="site-footer">
+    <div>😎 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</div>
+    <div>📞 Liên hệ khi cần: 0392290903 (lười rep lắm gọi đi) 😘</div>
   </footer>
 </body>
 </html>
