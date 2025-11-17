@@ -47,45 +47,32 @@ const state = {
   freeDate: null,
   freeTime: null,
   notes: null,
-  group: null,   // 👈 thêm
+  group: null,
   email: null
 };
 
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-// ======== YouTube music (play once after login) ========
-let ytPlayer = null;
-let ytReady = false;
-let ytPendingPlay = false;
-
-// API sẽ gọi hàm này khi tải xong
-window.onYouTubeIframeAPIReady = function(){
-  try{
-    ytPlayer = new YT.Player('yt-player', {
-      videoId: 'ogE3MkqJ12M',              // id bài bạn gửi
-      playerVars: {
-        autoplay: 0, controls: 0, rel: 0,
-        modestbranding: 1, playsinline: 1
-      },
-      events: {
-        onReady: () => { ytReady = true; if (ytPendingPlay) { ytPendingPlay = false; playMusicOnce(); } }
-      }
-    });
-  }catch(e){
-    console.warn("YouTube Iframe chưa sẵn sàng hoặc thiếu #yt-player:", e);
-  }
-};
+// ======== Nhạc nền (file tĩnh) ========
+let musicInited = false;
 
 // Gọi hàm này để phát 1 lần (đến hết bài, không lặp)
 function playMusicOnce(){
-  if (!ytPlayer || !ytReady || !ytPlayer.playVideo) {
-    ytPendingPlay = true;  // đợi API sẵn sàng
+  const audio = document.getElementById("bg-music");
+  if (!audio) {
+    console.warn("Không tìm thấy #bg-music");
     return;
   }
-  try { ytPlayer.stopVideo(); } catch(e){}
-  ytPlayer.seekTo(0, true);
-  ytPlayer.playVideo();
+  if (musicInited) return; // chỉ play 1 lần
+
+  musicInited = true;
+  audio.currentTime = 0;
+  audio.play().catch(err => {
+    console.warn("Không phát được nhạc:", err);
+    // Nếu fail (do browser chặn), cho phép thử lại ở lần tương tác kế tiếp
+    musicInited = false;
+  });
 }
 
 // ========= KHỞI TẠO =========
@@ -121,10 +108,11 @@ function init(){
 
 // ========= NAVIGATION =========
 function bindNav(){
+  // Bất cứ element nào có data-nav đều dùng để chuyển view
   $$("[data-nav]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
       const to = e.currentTarget.getAttribute("data-nav");
-      // Nếu là nút trong nav bar thì mới check disabled
+      // Nếu là nút nav chính và đang disabled thì không cho bấm
       if (e.currentTarget.classList.contains("nav-link") && e.currentTarget.disabled) {
         return;
       }
@@ -137,7 +125,6 @@ function bindNav(){
     showView(hash);
   });
 }
-
 
 function enableNav(){
   $$(".nav-link").forEach(b => b.disabled = false);
@@ -230,7 +217,7 @@ function bindLogin(){
 
       if (msg) msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
 
-      // 🔊 phát nhạc YouTube 1 lần
+      // 🔊 phát nhạc MP3 1 lần
       playMusicOnce();
 
       enableNav();
@@ -336,7 +323,6 @@ function bindHomeFlow(){
     state.rsvp     = rsvpVal;
     state.food     = foodInput ? foodInput.value : null;
     state.group    = groupInput ? groupInput.value : null;
-    // Lưu nguyên chuỗi khung giờ vào freeTime, freeDate để trống
     state.freeDate = null;
     state.freeTime = timeInput ? timeInput.value : null;
     state.email    = email;
@@ -444,35 +430,36 @@ async function loadStats(){
       if (maybeEl) maybeEl.textContent = data.summary?.rsvp?.["Chưa chắc"] ?? 0;
 
       const tb = $("#statsTable tbody");
-if (!tb){
-  if (msg) msg.textContent = "Thiếu bảng thống kê trong HTML.";
-  return;
-}
-tb.innerHTML = "";
-(data.rows || []).forEach(r=>{
-  const tr = document.createElement("tr");
+      if (!tb){
+        if (msg) msg.textContent = "Thiếu bảng thống kê trong HTML.";
+        return;
+      }
+      tb.innerHTML = "";
+      (data.rows || []).forEach(r=>{
+        const tr = document.createElement("tr");
 
-  // Gộp freeDate + freeTime thành 1 chuỗi
-  let slot = "";
-  if (r.freeTime && r.freeDate) {
-    slot = r.freeDate + " – " + r.freeTime;
-  } else if (r.freeTime) {
-    slot = r.freeTime;
-  } else if (r.freeDate) {
-    slot = r.freeDate;
-  }
+        // Gộp freeDate + freeTime thành 1 chuỗi "Khung giờ"
+        let slot = "";
+        if (r.freeTime && r.freeDate) {
+          slot = r.freeDate + " – " + r.freeTime;
+        } else if (r.freeTime) {
+          slot = r.freeTime;
+        } else if (r.freeDate) {
+          slot = r.freeDate;
+        }
 
-  tr.innerHTML = `
-    <td>${escapeHtml(r.displayName || r.username || "")}</td>
-    <td>${escapeHtml(r.rsvp || "")}</td>
-    <td>${escapeHtml(r.food || "")}</td>
-    <td>${escapeHtml(r.group || "")}</td>
-    <td>${escapeHtml(slot)}</td>                    <!-- Khung giờ -->
-    <td>${escapeHtml(r.email || "")}</td>
-    <td>${escapeHtml(r.notes || "")}</td>
-    <td>${escapeHtml(r.updatedAt || "")}</td>`;     <!-- Cập nhật -->
-  tb.appendChild(tr);
-});
+        tr.innerHTML = `
+          <td>${escapeHtml(r.displayName || r.username || "")}</td>
+          <td>${escapeHtml(r.rsvp || "")}</td>
+          <td>${escapeHtml(r.food || "")}</td>
+          <td>${escapeHtml(r.group || "")}</td>
+          <td>${escapeHtml(slot)}</td>
+          <td>${escapeHtml(r.email || "")}</td>
+          <td>${escapeHtml(r.notes || "")}</td>
+          <td>${escapeHtml(r.updatedAt || "")}</td>`;
+        tb.appendChild(tr);
+      });
+
       if (msg) msg.textContent = "";
     }catch(err){
       console.error(err);
@@ -523,14 +510,14 @@ async function sendPartial(type){
   data.freeDate = state.freeDate;
   data.freeTime = state.freeTime;
   data.notes = state.notes;
-  data.group = state.group;   // 👈
+  data.group = state.group;
   data.email = state.email;
 
   try{
     await fetch(EMAIL_WEBAPP_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {"Content-Type": "text/plain"}, // simple request
+      headers: {"Content-Type": "text/plain"},
       body: JSON.stringify(data)
     });
   }catch(err){
@@ -549,14 +536,14 @@ async function sendAll(){
   data.freeDate = state.freeDate;
   data.freeTime = state.freeTime;
   data.notes = state.notes;
-  data.group = state.group;   // 👈
+  data.group = state.group;
   data.email = state.email; 
 
   try{
     await fetch(EMAIL_WEBAPP_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {"Content-Type": "text/plain"}, // simple request
+      headers: {"Content-Type": "text/plain"},
       body: JSON.stringify(data)
     });
   }catch(err){
