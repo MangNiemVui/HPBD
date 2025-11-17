@@ -516,4 +516,30 @@ textarea{
     overflow-x:auto;
   }
 }
+/* ========== HIỂN / ẨN MẬT KHẨU ========== */
+
+.password-wrap{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrap input{
+  flex: 1;
+  padding-right: 40px; /* chừa chỗ cho icon mắt */
+}
+
+.toggle-pass{
+  position:absolute;
+  right:10px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  opacity:0.6;
+}
+
+.toggle-pass:hover{
+  opacity:1;
+}
 
