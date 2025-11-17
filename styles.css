@@ -1,11 +1,14 @@
 /* ================== THEME & RESET ================== */
-/* Đổi màu pastel ở đây */
+/* Bạn đổi màu pastel ở đây */
 :root{
   --bg: radial-gradient(1200px 800px at 10% 0%, #fff7f9 0%, #f6f7ff 50%, #eef9ff 100%);
   --text: #2b2d42;
   --muted: #6b7280;
-  --primary: #a78bfa;       /* màu nút chính – bạn đổi tùy thích */
+
+  /* Màu nút chính – bạn đổi tùy thích */
+  --primary: #a78bfa;
   --primary-contrast: #ffffff;
+
   --glass: rgba(255,255,255,.88);
   --glass-strong: rgba(255,255,255,.95);
   --shadow: 0 8px 24px rgba(0,0,0,.08);
@@ -24,7 +27,7 @@ body{
   background-size:cover;
 }
 
-/* ================== LAYOUT CHUNG ================== */
+/* ================== HEADER & FOOTER ================== */
 
 .site-header,
 .site-footer{
@@ -51,6 +54,8 @@ body{
   align-items:center;
   font-weight:600;
 }
+
+/* ================== NAV ================== */
 
 .nav{
   display:flex;
@@ -86,6 +91,8 @@ body{
   background:#ffffff;
 }
 
+/* ================== MAIN CONTAINER ================== */
+
 .container{
   width:100%;
   max-width:1100px;
@@ -104,7 +111,7 @@ body{
 
 .hidden{ display:none !important; }
 
-/* ================== THẺ / CARD CHUNG ================== */
+/* ================== CARD ================== */
 
 .card{
   background:var(--glass);
@@ -120,23 +127,14 @@ body{
   padding:26px 20px;
 }
 
-.card-inner{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  align-items:center;
-}
-
-/* ================== TEXT & NÚT ================== */
+/* ================== TEXT ================== */
 
 .type-line{
   opacity:.95;
   font-size:1.05rem;
 }
 
-.hl{
-  color:#f97373;
-}
+.hl{ color:#f97373; }
 
 label{
   display:block;
@@ -155,7 +153,9 @@ textarea{
   font-family:inherit;
 }
 
-textarea{ resize:vertical; }
+textarea{
+  resize:vertical;
+}
 
 .inline{
   display:flex;
@@ -203,17 +203,12 @@ textarea{ resize:vertical; }
   min-height:1.2em;
 }
 
-.muted{
-  color:var(--muted);
-}
+.muted{ color:var(--muted); }
 
-.hint{
-  margin-top:8px;
-  opacity:.85;
-}
-
-.hint summary{
-  cursor:pointer;
+.divider{
+  border:none;
+  border-top:1px solid #e5e7eb;
+  margin:14px 0;
 }
 
 /* ================== LOGIN PAGE ================== */
@@ -236,8 +231,8 @@ textarea{ resize:vertical; }
 .login-hero img{
   width:100%;
   height:100%;
-  display:block;
   object-fit:cover;
+  display:block;
 }
 
 .hero-caption{
@@ -259,7 +254,7 @@ textarea{ resize:vertical; }
   margin-top:12px;
 }
 
-/* ================== HOME / DETAILS ================== */
+/* ================== HOME PAGE ================== */
 
 .details{
   display:flex;
@@ -284,7 +279,6 @@ textarea{ resize:vertical; }
 .event-title{
   font-size:1.35rem;
   text-align:center;
-  margin:4px 0 6px;
 }
 
 .event-info{
@@ -305,21 +299,43 @@ textarea{ resize:vertical; }
   padding:0;
 }
 
-.rsvp legend{
-  margin-bottom:4px;
-  font-weight:500;
-}
-
 .rsvp label{
   background:#f3f4ff;
   padding:8px 10px;
   border-radius:12px;
   border:1px solid #e0e7ff;
   display:flex;
-  align-items:center;
   gap:6px;
+  align-items:center;
+  font-size:.9rem;
 }
 
+/* quán ăn */
+.food-inline{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.food-inline label{
+  background:#f3f4ff;
+  padding:8px 12px;
+  border-radius:12px;
+  border:1px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:.9rem;
+}
+
+/* thời gian */
+.time-inline{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+/* nút */
 .actions{
   display:flex;
   gap:12px;
@@ -327,7 +343,7 @@ textarea{ resize:vertical; }
   margin-top:10px;
 }
 
-/* ================== THỐNG KÊ ================== */
+/* ================== STATS PAGE ================== */
 
 .stats-summary{
   display:grid;
@@ -356,7 +372,6 @@ textarea{ resize:vertical; }
 
 .table-wrap{
   overflow:auto;
-  margin-top:6px;
 }
 
 .table{
@@ -369,7 +384,6 @@ textarea{ resize:vertical; }
 .table td{
   padding:8px 10px;
   border-bottom:1px solid rgba(148,163,184,.35);
-  text-align:left;
   white-space:nowrap;
 }
 
@@ -379,7 +393,7 @@ textarea{ resize:vertical; }
   top:0;
 }
 
-/* ================== CẢM ƠN ================== */
+/* ================== THANK YOU ================== */
 
 .card.thanks{
   text-align:center;
@@ -388,7 +402,6 @@ textarea{ resize:vertical; }
 .thanks-gif{
   max-width:220px;
   width:100%;
-  border-radius:12px;
 }
 
 .thanks-text{
@@ -396,20 +409,21 @@ textarea{ resize:vertical; }
   margin-top:10px;
 }
 
-/* ================== ACCESSIBILITY & ANIMATION ================== */
+/* ================== ACCESSIBILITY ================== */
 
 .sr-only{
   position:absolute;
   left:-9999px;
-  top:auto;
   width:1px;
   height:1px;
   overflow:hidden;
 }
 
+/* ================== ANIMATIONS ================== */
+
 @keyframes fadeIn{
   from{ opacity:0; transform:translateY(4px); }
-  to{   opacity:1; transform:none; }
+  to{ opacity:1; transform:none; }
 }
 
 /* ================== RESPONSIVE ================== */
@@ -427,10 +441,6 @@ textarea{ resize:vertical; }
 }
 
 @media (max-width:600px){
-  .site-header,
-  .site-footer{
-    padding:10px 12px;
-  }
   .container{
     padding:0 12px 40px;
   }
