@@ -34,7 +34,9 @@ const state = {
   food: null,
   freeDate: null,
   freeTime: null,
-  notes: null
+  notes: null,
+  group: null,   // 👈 thêm
+  email: null
 };
 
 const $  = (sel) => document.querySelector(sel);
@@ -211,7 +213,12 @@ function bindHomeFlow(){
       msg.textContent = "Hãy chọn một quán ăn bạn thích.";
       return;
     }
-
+// 2.5. Nhóm
+const groupInput = $$("#details input[name='group']").find(i => i.checked);
+if(!groupInput){
+  msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
+  return;
+}
     // 3. Thời gian
     const d = $("#homeFreeDate")?.value;
     const t = $("#homeFreeTime")?.value;
@@ -219,15 +226,22 @@ function bindHomeFlow(){
       msg.textContent = "Hãy chọn đầy đủ ngày và giờ.";
       return;
     }
-
+// 3.5. Gmail
+const email = $("#homeEmail")?.value.trim();
+if(!email){
+  msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
+  return;
+}
     // 4. Ghi chú
     const notes = ($("#homeNotes")?.value || "").trim();
 
     // Gán vào state
     state.rsvp     = rsvpInput.value;
     state.food     = foodInput.value;
+    state.group    = groupInput.value;
     state.freeDate = d;
     state.freeTime = t;
+    state.email    = email;
     state.notes    = notes || null;
 
     msg.textContent = "Đang lưu thông tin...";
@@ -377,6 +391,8 @@ async function sendPartial(type){
   data.freeDate = state.freeDate;
   data.freeTime = state.freeTime;
   data.notes = state.notes;
+  data.group = state.group;   // 👈
+  data.email = state.email;
 
   try{
     await fetch(EMAIL_WEBAPP_URL, {
@@ -401,6 +417,8 @@ async function sendAll(){
   data.freeDate = state.freeDate;
   data.freeTime = state.freeTime;
   data.notes = state.notes;
+  data.group = state.group;   // 👈
+  data.email = state.email; 
 
   try{
     await fetch(EMAIL_WEBAPP_URL, {
