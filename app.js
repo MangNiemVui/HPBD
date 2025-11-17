@@ -4,7 +4,7 @@
 const OWNER_EMAIL = "phanthu27112002@gmail.com";
 
 // DÁN URL Web App của Google Apps Script vào đây (dạng .../exec)
-const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw1JpSnnpUe7qLQ1zgK0RJhUMoJxpgTUAj7gUGfxJtHcsLNDg2Hv6Auqs0qxzRJPRm6/exec";
+const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxwGGVPIQ05DjcW-KGpX-Gb4OH53RZLbf1YeQ7ks2wtScnZS7rMoY0wcnhKws51fA_C/exec";
 
 // Chuỗi bí mật phải trùng với ADMIN_KEY trong Apps Script
 const ADMIN_KEY = "29090302";
