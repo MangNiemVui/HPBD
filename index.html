@@ -9,8 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
   <script defer src="app.js"></script>
 </head>
+  <div id="yt-player" style="position:fixed;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
 <body>
   <header class="site-header">
     <div class="brand" role="banner" aria-label="Thiệp mời sinh nhật">
@@ -45,12 +47,11 @@
           <form id="loginForm" class="card" autocomplete="off">
             <label for="username">Tên đăng nhập</label>
             <input id="username" name="username" required placeholder="ví dụ:cholongnach🤣" />
+            <label for="password">Mật khẩu</label>
             <div class="password-wrap">
-              <input id="password" name="password" type="password" required placeholder="••••" />
+              <input id="password" name="password" type="password" required placeholder="••••" autocomplete="current-password" />
               <button type="button" id="togglePassword" class="toggle-pass">👁</button>
             </div>
-
-
 
             <div class="login-row">
               <label class="inline">
@@ -239,10 +240,9 @@
     </section>
   </main>
 
-  <<footer class="site-footer">
-  <div>😎2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</div>
-  <div>📞Liên hệ khi cần: 0392290903 (lười rep lắm gọi đi) 😘</div>
-</footer>
+ <footer class="site-footer">
+  <div>😎 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</div>
+  <div>📞 Liên hệ khi cần: 0392290903 (lười rep lắm gọi đi) 😘</div>
   </footer>
 </body>
 </html>
