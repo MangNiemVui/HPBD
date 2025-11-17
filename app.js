@@ -121,10 +121,14 @@ function init(){
 
 // ========= NAVIGATION =========
 function bindNav(){
-  $$(".nav-link[data-nav]").forEach(btn=>{
+  $$("[data-nav]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
       const to = e.currentTarget.getAttribute("data-nav");
-      if(!e.currentTarget.disabled) showView(to);
+      // Nếu là nút trong nav bar thì mới check disabled
+      if (e.currentTarget.classList.contains("nav-link") && e.currentTarget.disabled) {
+        return;
+      }
+      showView(to);
     });
   });
 
@@ -133,6 +137,7 @@ function bindNav(){
     showView(hash);
   });
 }
+
 
 function enableNav(){
   $$(".nav-link").forEach(b => b.disabled = false);
