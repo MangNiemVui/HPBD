@@ -157,25 +157,50 @@ function showView(hash){
 // ========= ĐĂNG NHẬP / ĐĂNG XUẤT =========
 
 function bindLogin(){
-  $("#loginForm")?.addEventListener("submit", (e)=>{
+  const form = $("#loginForm");
+  if (!form) return;
+
+  // NÚT HIỆN / ẨN MẬT KHẨU
+  const passInput = $("#password");
+  const toggleBtn = $("#togglePassword");
+  if (passInput && toggleBtn){
+    toggleBtn.addEventListener("click", ()=>{
+      const isHidden = passInput.type === "password";
+      passInput.type = isHidden ? "text" : "password";
+      // đổi icon cho vui
+      toggleBtn.textContent = isHidden ? "🙈" : "👁";
+    });
+  }
+
+  // XỬ LÝ SUBMIT ĐĂNG NHẬP
+  form.addEventListener("submit", (e)=>{
     e.preventDefault();
+
     const username = $("#username").value.trim();
-    const password = $("#password").value.;
+    const password = $("#password").value.trim();   // 👈 sửa lỗi + thêm trim
     const msg = $("#loginMsg");
 
     const u = USERS[username];
-    if(u && u.pw === password){
+    if (u && u.pw === password){
       state.user = username;
       state.role = u.role;
       state.displayName = u.name || username;
-      if($("#rememberMe").checked){
+
+      if ($("#rememberMe").checked){
         localStorage.setItem("sessionUser", username);
       }
+
       msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
+
+      // Nếu bạn có hàm nhạc, gọi ở đây
+      if (typeof playMusicOnce === "function") {
+        playMusicOnce();
+      }
+
       enableNav();
       showView("#home");
       setTimeout(launchWelcomeCard, 200);
-    }else{
+    } else {
       msg.textContent = "Sai tên đăng nhập hoặc mật khẩu.";
     }
   });
@@ -190,11 +215,11 @@ function bindLogout(){
 
     localStorage.removeItem("sessionUser");
 
-    $$("#loginForm input").forEach(i=>i.value="");
-    $$("#details input[type=radio]").forEach(i=>i.checked=false);
-    $("#homeFreeDate") && ( $("#homeFreeDate").value = "" );
-    $("#homeFreeTime") && ( $("#homeFreeTime").value = "" );
-    $("#homeNotes") && ( $("#homeNotes").value = "" );
+    $$("#loginForm input").forEach(i => i.value = "");
+    $$("#details input[type=radio]").forEach(i => i.checked = false);
+    if ($("#homeFreeDate"))  $("#homeFreeDate").value  = "";
+    if ($("#homeFreeTime"))  $("#homeFreeTime").value  = "";
+    if ($("#homeNotes"))     $("#homeNotes").value     = "";
 
     disableNavExceptLogin();
     showView("#login");
