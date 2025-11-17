@@ -124,22 +124,25 @@
     <label><input type="radio" name="foodHome" value="Việt" /> Việt</label>
   </div>
 
-  <hr class="divider">
 
-  <!-- 3. Chọn thời gian -->
-  <p><strong>Bạn rảnh lúc nào?</strong></p>
-  <div class="time-inline">
-    <label>Ngày
-      <input type="date" id="homeFreeDate">
-    </label>
-    <label>Giờ
-      <input type="time" id="homeFreeTime">
-    </label>
-  </div>
+<hr class="divider">
 
-  <label for="homeNotes">Ghi chú (tuỳ chọn)</label>
+<p><strong>Bạn muốn đi nhóm nào?</strong></p>
+<div class="food-inline">
+  <!-- 3 radio nhóm -->
+</div>
+
+<hr class="divider">
+
+<p><strong>Bạn rảnh lúc nào?</strong></p>
+<!-- input date/time -->
+
+<label for="homeEmail"><strong>Gmail của bạn để nhận thiệp</strong></label>
+<input id="homeEmail" type="email" placeholder="ví dụ: ban@gmail.com" />
+
+<label for="homeNotes">Ghi chú (tuỳ chọn)</label>
+<textarea id="homeNotes" ...></textarea>
   <textarea id="homeNotes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
-
   <div class="actions">
     <button id="homeCompleteBtn" class="btn btn-primary">Hoàn thành</button>
     <span id="submitMsg" class="msg"></span>
