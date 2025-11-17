@@ -158,7 +158,7 @@ function bindLogin(){
   $("#loginForm")?.addEventListener("submit", (e)=>{
     e.preventDefault();
     const username = $("#username").value.trim();
-    const password = $("#password").value;
+    const password = $("#password").value.;
     const msg = $("#loginMsg");
 
     const u = USERS[username];
