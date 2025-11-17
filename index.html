@@ -89,33 +89,64 @@
       </div>
 
       <!-- Thông tin chi tiết -->
-      <div id="details" class="card details hidden" aria-live="polite">
-        <div class="avatar-wrap">
-          <img src="assets/avatar.jpg" alt="Ảnh đại diện" class="avatar" />
-        </div>
+<div id="details" class="card details hidden" aria-live="polite">
+  <div class="avatar-wrap">
+    <img src="assets/avatar.jpg" alt="Ảnh đại diện" class="avatar" />
+  </div>
 
-        <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
+  <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
 
-        <!-- Câu bạn yêu cầu -->
-        <p class="type-line muted" id="detailIntro">👉 Bạn hãy lựa chọn những điều sau:</p>
+  <p class="type-line muted" id="detailIntro">
+    👉 Bạn hãy lựa chọn những điều sau:
+  </p>
 
-        <ul class="event-info">
-          <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
-          <li><strong>Địa điểm:</strong> <span id="eventAddress">Chưa chốt (từ từ đi mấy bé)</span></li>
-        </ul>
+  <ul class="event-info">
+    <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
+    <li><strong>Địa điểm:</strong> <span id="eventAddress">Chưa chốt (từ từ đi mấy bé)</span></li>
+  </ul>
 
-        <fieldset class="rsvp">
-          <legend>Bạn có đi không?</legend>
-          <label><input type="radio" name="rsvp" value="Đi" /> Đi</label>
-          <label><input type="radio" name="rsvp" value="Không đi" /> Không đi</label>
-          <label><input type="radio" name="rsvp" value="Chưa chắc" /> Chưa chắc</label>
-        </fieldset>
+  <!-- 1. RSVP -->
+  <fieldset class="rsvp">
+    <legend>Bạn có đi không?</legend>
+    <label><input type="radio" name="rsvp" value="Đi" /> Đi</label>
+    <label><input type="radio" name="rsvp" value="Không đi" /> Không đi</label>
+    <label><input type="radio" name="rsvp" value="Chưa chắc" /> Chưa chắc</label>
+  </fieldset>
 
-        <div class="actions">
-          <button id="saveRsvpBtn" class="btn btn-primary">Lưu thông tin</button>
-          <span id="submitMsg" class="msg"></span>
-        </div>
-      </div>
+  <hr class="divider">
+
+  <!-- 2. Chọn quán ăn -->
+  <p><strong>Lựa chọn quán ăn</strong></p>
+  <div class="food-inline">
+    <label><input type="radio" name="foodHome" value="Quán Thái" /> Quán Thái</label>
+    <label><input type="radio" name="foodHome" value="Nướng" /> Nướng</label>
+    <label><input type="radio" name="foodHome" value="Nhậu" /> Nhậu</label>
+    <label><input type="radio" name="foodHome" value="Hàn" /> Hàn</label>
+    <label><input type="radio" name="foodHome" value="Việt" /> Việt</label>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 3. Chọn thời gian -->
+  <p><strong>Bạn rảnh lúc nào?</strong></p>
+  <div class="time-inline">
+    <label>Ngày
+      <input type="date" id="homeFreeDate">
+    </label>
+    <label>Giờ
+      <input type="time" id="homeFreeTime">
+    </label>
+  </div>
+
+  <label for="homeNotes">Ghi chú (tuỳ chọn)</label>
+  <textarea id="homeNotes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
+
+  <div class="actions">
+    <button id="homeCompleteBtn" class="btn btn-primary">Hoàn thành</button>
+    <span id="submitMsg" class="msg"></span>
+  </div>
+</div>
+
     </section>
 
     <!-- Lựa chọn quán ăn -->
