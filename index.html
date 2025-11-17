@@ -27,21 +27,21 @@
 
   <main id="app" class="container">
 
-    <!-- Đăng nhập: layout 2 cột - ảnh bên trái, form bên phải -->
+    <!-- Đăng nhập -->
     <section id="login" class="view show" aria-labelledby="loginTitle">
       <h1 id="loginTitle" class="sr-only">Đăng nhập</h1>
 
       <div class="login-grid">
-        <!-- BÊN TRÁI: Ảnh + caption -->
+        <!-- BÊN TRÁI -->
         <aside class="login-hero card">
           <img src="assets/login-hero.jpg" alt="Ảnh trang đăng nhập" />
           <div class="hero-caption">Bạn đã sẵn sàng chưa?</div>
         </aside>
 
-        <!-- BÊN PHẢI: Form -->
+        <!-- BÊN PHẢI -->
         <div>
           <h2 style="margin-top:0">Đăng nhập</h2>
-          <p class="muted">Mỗi khách sẽ được chủ web cấp <strong>tên đăng nhập</strong> và <strong>mật khẩu</strong>.</p>
+          <p class="muted">Tên đăng nhập là biệt danh trong face của bạn còncòn mật khẩu là sinh nhật của bạn(vd:27112002) <strong>tên đăng nhập</strong> và <strong>mật khẩu</strong>.</p>
 
           <form id="loginForm" class="card" autocomplete="off">
             <label for="username">Tên đăng nhập</label>
@@ -58,24 +58,22 @@
             </div>
 
             <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
-              <summary>Tài khoản demo để thử</summary>
-             <!--
-                <details class="hint">
-                <summary>Tài khoản demo để thử</summary>
-                <div>
-                Chủ sở hữu: <code>owner / admin123</code><br>
-                Khách: <code>khach1 / 1234</code>, <code>khach2 / 5678</code>
-                </div>
-              </details>
-              -->
 
-          
+            <!-- demo (đang ẩn)
+            <details class="hint">
+              <summary>Tài khoản demo để thử</summary>
+              <div>
+                Chủ sở hữu: <code>bethucute / 29090302</code><br>
+                Khách: <code>khach1 / 1234</code>, <code>khach2 / 5678</code>
+              </div>
+            </details>
+            -->
           </form>
         </div>
       </div>
     </section>
 
-    <!-- Home: thiệp + thông tin -->
+    <!-- Home: thiệp + form tổng -->
     <section id="home" class="view" aria-labelledby="homeTitle">
       <h2 id="homeTitle" class="sr-only">Thiệp mời</h2>
 
@@ -88,112 +86,86 @@
       </div>
 
       <!-- Thông tin chi tiết -->
-<div id="details" class="card details hidden" aria-live="polite">
-  <div class="avatar-wrap">
-    <img src="assets/avatar.jpg" alt="Ảnh đại diện" class="avatar" />
-  </div>
+      <div id="details" class="card details hidden" aria-live="polite">
+        <div class="avatar-wrap">
+          <img src="assets/avatar.jpg" alt="Ảnh đại diện" class="avatar" />
+        </div>
 
-  <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
+        <h3 class="event-title">Sinh nhật <span class="hl">Phan Ánh Ngọc Thư</span></h3>
 
-  <p class="type-line muted" id="detailIntro">
-    👉 Bạn hãy lựa chọn những điều sau:
-  </p>
+        <p class="type-line muted" id="detailIntro">
+          👉 Bạn hãy lựa chọn những điều sau:
+        </p>
 
-  <ul class="event-info">
-    <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
-    <li><strong>Địa điểm:</strong> <span id="eventAddress">Chưa chốt (từ từ đi mấy bé)</span></li>
-  </ul>
+        <ul class="event-info">
+          <li><strong>Thời gian:</strong> <span id="eventTime">Dự kiến 28/11/2025</span></li>
+          <li><strong>Địa điểm:</strong> <span id="eventAddress">Chưa chốt (từ từ đi mấy bé)</span></li>
+        </ul>
 
-  <!-- 1. RSVP -->
-  <fieldset class="rsvp">
-    <legend>Bạn có đi không?</legend>
-    <label><input type="radio" name="rsvp" value="Đi" /> Đi</label>
-    <label><input type="radio" name="rsvp" value="Không đi" /> Không đi</label>
-    <label><input type="radio" name="rsvp" value="Chưa chắc" /> Chưa chắc</label>
-  </fieldset>
-
-  <hr class="divider">
-
-  <!-- 2. Chọn quán ăn -->
-  <p><strong>Lựa chọn quán ăn</strong></p>
-  <div class="food-inline">
-    <label><input type="radio" name="foodHome" value="Quán Thái" /> Quán Thái</label>
-    <label><input type="radio" name="foodHome" value="Nướng" /> Nướng</label>
-    <label><input type="radio" name="foodHome" value="Nhậu" /> Nhậu</label>
-    <label><input type="radio" name="foodHome" value="Hàn" /> Hàn</label>
-    <label><input type="radio" name="foodHome" value="Việt" /> Việt</label>
-  </div>
-
-
-<hr class="divider">
-
-<p><strong>Bạn muốn đi nhóm nào?</strong></p>
-<div class="food-inline">
-  <!-- 3 radio nhóm -->
-</div>
-
-<hr class="divider">
-
-<p><strong>Bạn rảnh lúc nào?</strong></p>
-<!-- input date/time -->
-
-<label for="homeEmail"><strong>Gmail của bạn để nhận thiệp</strong></label>
-<input id="homeEmail" type="email" placeholder="ví dụ: ban@gmail.com" />
-
-<label for="homeNotes">Ghi chú (tuỳ chọn)</label>
-<textarea id="homeNotes" ...></textarea>
-  <textarea id="homeNotes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
-  <div class="actions">
-    <button id="homeCompleteBtn" class="btn btn-primary">Hoàn thành</button>
-    <span id="submitMsg" class="msg"></span>
-  </div>
-</div>
-
-    </section>
-
-    <!-- Lựa chọn quán ăn -->
-    <section id="food" class="view" aria-labelledby="foodTitle">
-      <h2 id="foodTitle">Lựa chọn quán ăn</h2>
-      <form id="foodForm" class="card">
-        <fieldset>
-          <legend>Chọn phong cách bạn thích</legend>
-          <label><input type="radio" name="food" value="Quán Thái" /> Quán Thái</label>
-          <label><input type="radio" name="food" value="Nướng" /> Nướng</label>
-          <label><input type="radio" name="food" value="Nhậu" /> Nhậu</label>
-          <label><input type="radio" name="food" value="Hàn" /> Hàn</label>
-          <label><input type="radio" name="food" value="Việt" /> Việt</label>
+        <!-- 1. RSVP -->
+        <fieldset class="rsvp">
+          <legend>Bạn có đi không?</legend>
+          <label><input type="radio" name="rsvp" value="Đi" /> Đi</label>
+          <label><input type="radio" name="rsvp" value="Không đi" /> Không đi</label>
+          <label><input type="radio" name="rsvp" value="Chưa chắc" /> Chưa chắc</label>
         </fieldset>
-        <div class="actions">
-          <button class="btn btn-primary" type="submit">Lưu lựa chọn</button>
-          <span id="foodMsg" class="msg"></span>
+
+        <hr class="divider">
+
+        <!-- 2. Chọn quán ăn -->
+        <p><strong>Lựa chọn quán ăn</strong></p>
+        <div class="food-inline">
+          <label><input type="radio" name="foodHome" value="Quán Thái" /> Quán Thái</label>
+          <label><input type="radio" name="foodHome" value="Nướng" /> Nướng</label>
+          <label><input type="radio" name="foodHome" value="Nhậu" /> Nhậu</label>
+          <label><input type="radio" name="foodHome" value="Hàn" /> Hàn</label>
+          <label><input type="radio" name="foodHome" value="Việt" /> Việt</label>
         </div>
-      </form>
+
+        <hr class="divider">
+
+        <!-- 3. Chọn nhóm -->
+        <p><strong>Bạn muốn đi nhóm nào?</strong></p>
+        <div class="food-inline">
+          <label><input type="radio" name="group" value="cap3" /> Nhóm cấp 3</label>
+          <label><input type="radio" name="group" value="nhau" /> Nhóm đi nhậu</label>
+          <label><input type="radio" name="group" value="rieng" /> Đi riêng</label>
+        </div>
+
+        <hr class="divider">
+
+        <!-- 4. Chọn thời gian (4 option) -->
+        <p><strong>Bạn rảnh lúc nào?</strong></p>
+        <p class="muted" style="font-size:0.9rem;">
+          T rất bận chỉ sắp xếp được những khung giờ này, ép chọn miễn ý kiến :))
+        </p>
+        <div class="time-inline">
+          <label><input type="radio" name="timeSlot" value="Tối thứ 3 (24/11/2025)" />
+            Tối thứ 3 (24/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Tối thứ 6 (28/11/2025)" />
+            Tối thứ 6 (28/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Trưa thứ 7 (29/11/2025)" />
+            Trưa thứ 7 (29/11/2025)</label>
+          <label><input type="radio" name="timeSlot" value="Tối chủ nhật (30/11/2025)" />
+            Tối chủ nhật (30/11/2025)</label>
+        </div>
+
+        <!-- Gmail -->
+        <label for="homeEmail"><strong>Gmail của bạn để nhận thiệp</strong></label>
+        <input id="homeEmail" type="email" placeholder="ví dụ: ban@gmail.com" />
+
+        <!-- Ghi chú -->
+        <label for="homeNotes">Ghi chú (tuỳ chọn)</label>
+        <textarea id="homeNotes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
+
+        <div class="actions">
+          <button id="homeCompleteBtn" class="btn btn-primary">Hoàn thành</button>
+          <span id="submitMsg" class="msg"></span>
+        </div>
+      </div>
     </section>
 
-    <!-- Lựa chọn thời gian -->
-    <section id="time" class="view" aria-labelledby="timeTitle">
-      <h2 id="timeTitle">Lựa chọn thời gian</h2>
-      <form id="timeForm" class="card">
-        <p><strong>Bạn rảnh mấy giờ?</strong></p>
-        <label for="freeDate">Ngày</label>
-        <input type="date" id="freeDate" required />
-        <label for="freeTime">Giờ</label>
-        <input type="time" id="freeTime" required />
-        <label for="notes">Ghi chú (tuỳ chọn)</label>
-        <textarea id="notes" rows="3" placeholder="Ví dụ: em tới trễ 15 phút..."></textarea>
-
-        <div class="actions">
-          <button class="btn btn-primary" type="submit">Lưu thời gian</button>
-          <span id="timeMsg" class="msg"></span>
-        </div>
-
-        <!-- Sau khi lưu sẽ hiện nút Hoàn thành -->
-        <div id="finalizeSection" class="actions hidden">
-          <button id="finalizeBtn" class="btn btn-primary" type="button">Hoàn thành</button>
-          <span id="finalizeMsg" class="msg"></span>
-        </div>
-      </form>
-    </section>
+    <!-- (phần #food, #time cũ có thể giữ nguyên hoặc bỏ, vì Home đã gom hết) -->
 
     <!-- Thống kê (chỉ chủ sở hữu thấy) -->
     <section id="stats" class="view" aria-labelledby="statsTitle">
@@ -222,13 +194,14 @@
         <div class="actions" style="justify-content: space-between;">
           <strong>Danh sách chi tiết</strong>
           <button id="reloadStatsBtn" class="btn btn-secondary" type="button">Tải lại</button>
-          <div class="actions" style="margin-top:8px; justify-content:flex-start; flex-wrap:wrap;">
+        </div>
+
+        <div class="actions" style="margin-top:8px; justify-content:flex-start; flex-wrap:wrap;">
           <strong style="margin-right:8px;">Gửi thiệp theo nhóm:</strong>
           <button type="button" class="btn btn-secondary" id="sendGroupCap3">Nhóm cấp 3</button>
           <button type="button" class="btn btn-secondary" id="sendGroupNhau">Nhóm đi nhậu</button>
-        <button type="button" class="btn btn-secondary" id="sendGroupRieng">Đi riêng</button>
-        <span id="groupSendMsg" class="msg"></span>
-
+          <button type="button" class="btn btn-secondary" id="sendGroupRieng">Đi riêng</button>
+          <span id="groupSendMsg" class="msg"></span>
         </div>
 
         <div class="table-wrap">
@@ -238,11 +211,12 @@
                 <th>Tài khoản</th>
                 <th>Đi/Không</th>
                 <th>Quán ăn</th>
-                <th>Ngày</th>
-                <th>Giờ</th>
+                <th>Nhóm</th>
+                <th>Khung giờ</th>
+                <th>Gmail</th>
                 <th>Ghi chú</th>
                 <th>Cập nhật</th>
-              </tr>
+                   </tr>
             </thead>
             <tbody></tbody>
           </table>
@@ -256,8 +230,8 @@
     <section id="thanks" class="view" aria-labelledby="thanksTitle">
       <h2 id="thanksTitle" class="sr-only">Lời cảm ơn</h2>
       <div class="card thanks">
-      <img src="assets/cat-thanks.gif" alt="Mèo cảm ơn" class="thanks-gif" />
-        <p class="thanks-text">Cảm ơn bạn! Hẹn gặp lại ở bữa tiệc 🎂</p>
+        <img src="assets/cat-thanks.gif" alt="Mèo cảm ơn" class="thanks-gif" />
+        <p class="thanks-text">Đợi bé sắp xếp rồi gửi gmail nhé, nhớ check và bị đi ngày nào thì chịu! Hẹn gặp lại ở bữa tiệc 🎂</p>
         <button class="btn btn-secondary" data-nav="#home">Về Home</button>
       </div>
     </section>
@@ -265,6 +239,7 @@
 
   <footer class="site-footer">
     <small>© 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</small>
+    <small>@ Liên hệ khi cần: 0392290903( lười trả lời số này lắm thêm cho zui á)😘</small>
   </footer>
 </body>
 </html>
