@@ -9,8 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <!-- Không cần chèn iframe_api ở đây, app.js sẽ tự nạp để tránh lỗi race -->
-  <script defer src="app.js"></script>
+<script defer src="app.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -25,10 +24,6 @@
       <button class="nav-link nav-logout" id="logoutBtn" disabled>Đăng xuất</button>
     </nav>
   </header>
-
-  <!-- Player YouTube ẩn để phát nhạc nền (PHẢI nằm trong body) -->
-  <div id="yt-player" aria-hidden="true" style="width:0;height:0;overflow:hidden;"></div>
-
   <main id="app" class="container">
 
     <!-- Đăng nhập -->
@@ -215,5 +210,12 @@
     <div>😎 2025. Thiệp mời sinh nhật – Thiết kế bởi bé Thư cute ❤️</div>
     <div>📞 Liên hệ khi cần: 0392290903 (lười rep lắm gọi đi) 😘</div>
   </footer>
+    <!-- ... footer của bạn ... -->
+
+  <!-- Nhạc nền file tĩnh -->
+  <audio id="bg-music" src="lam-nguoi-luon-yeu-em.mp3" preload="auto"></audio>
+</body>
+</html>
+
 </body>
 </html>
