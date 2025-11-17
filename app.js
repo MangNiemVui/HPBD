@@ -392,4 +392,33 @@ async function sendPartial(type){
 
 // Gửi bản tổng cuối cùng
 async function sendAll(){
-  if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.st
+  if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")) return;
+
+  const data = payloadBase();
+  data.type = "final";
+  data.rsvp = state.rsvp;
+  data.food = state.food;
+  data.freeDate = state.freeDate;
+  data.freeTime = state.freeTime;
+  data.notes = state.notes;
+
+  try{
+    await fetch(EMAIL_WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify(data)
+    });
+  }catch(err){
+    console.warn("sendAll error (ignored):", err);
+    // vẫn cho flow tiếp tục, user không bị kẹt
+  }
+}
+
+// ========= TIỆN ÍCH =========
+
+function escapeHtml(s){
+  return String(s || "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+  }[c]));
+}
