@@ -20,8 +20,21 @@ const EVENT = {
 // role: "owner" => xem được Thống kê, "guest" => khách bình thường
 const USERS = {
   "bethucute":  { pw: "29090302", role: "owner", name: "Chủ sở hữu" },
-  "khach1": { pw: "1234",     role: "guest", name: "Khách 1" },
-  "khach2": { pw: "5678",     role: "guest", name: "Khách 2" }
+  "ethreal": { pw: "29092003",     role: "guest", name: "Anh Quỳnh" },
+  "yellowperson": { pw: "07102002",     role: "guest", name: "Hồng Nhung" },
+  "cogaitamlinh": { pw: "11102002",     role: "guest", name: "Nguyễn Ngọc" },
+  "dangthu": { pw: "15122003",     role: "guest", name: "Đặng Thư" },
+  "cholongnach": { pw: "02032002",     role: "guest", name: "Linh Nhi" },
+  "nguyenthu": { pw: "12062002",     role: "guest", name: "Minh Thư" },
+  "nhuy": { pw: "29012004",     role: "guest", name: "Như Ý" },
+  "baodepgai": { pw: "02052003",     role: "guest", name: "Huỳnh Như" },
+  "chidep": { pw: "08112001",     role: "guest", name: "Tường Di" },
+  "cotbao": { pw: "22122002",     role: "guest", name: "Bùi Ngọc Tiến" },
+  "xuanmai": { pw: "16062003",     role: "guest", name: "Xuân Mai" },
+  "tramkelly": { pw: "23032001",     role: "guest", name: "Trâm Kelly" },
+  "thuyhiencocuocgoikhac":{ pw: "23032001", role: "guest", name: "Thúy Hiền" },
+  "lovisong2":{ pw: "22052001", role: "guest", name: "Như Ngọc" },
+ "baisau": { pw: "07052002",     role: "guest", name: "Thảo chó" },
 };
 
 // ========= STATE =========
