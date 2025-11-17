@@ -36,8 +36,8 @@ const USERS = {
   "lovisong2":{ pw: "22052000", role: "guest", name: "Như Ngọc" },
   "baisau": { pw: "07052002", role: "guest", name: "Thảo chó" }
 };
-// ========= STATE =========
 
+// ========= STATE =========
 const state = {
   user: null,
   role: null,
@@ -53,6 +53,7 @@ const state = {
 
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
 // ======== YouTube music (play once after login) ========
 let ytPlayer = null;
 let ytReady = false;
@@ -60,16 +61,20 @@ let ytPendingPlay = false;
 
 // API sẽ gọi hàm này khi tải xong
 window.onYouTubeIframeAPIReady = function(){
-  ytPlayer = new YT.Player('yt-player', {
-    videoId: 'ogE3MkqJ12M',              // id bài bạn gửi
-    playerVars: {
-      autoplay: 0, controls: 0, rel: 0,
-      modestbranding: 1, playsinline: 1
-    },
-    events: {
-      onReady: () => { ytReady = true; if (ytPendingPlay) { ytPendingPlay = false; playMusicOnce(); } }
-    }
-  });
+  try{
+    ytPlayer = new YT.Player('yt-player', {
+      videoId: 'ogE3MkqJ12M',              // id bài bạn gửi
+      playerVars: {
+        autoplay: 0, controls: 0, rel: 0,
+        modestbranding: 1, playsinline: 1
+      },
+      events: {
+        onReady: () => { ytReady = true; if (ytPendingPlay) { ytPendingPlay = false; playMusicOnce(); } }
+      }
+    });
+  }catch(e){
+    console.warn("YouTube Iframe chưa sẵn sàng hoặc thiếu #yt-player:", e);
+  }
 };
 
 // Gọi hàm này để phát 1 lần (đến hết bài, không lặp)
@@ -82,8 +87,8 @@ function playMusicOnce(){
   ytPlayer.seekTo(0, true);
   ytPlayer.playVideo();
 }
-// ========= KHỞI TẠO =========
 
+// ========= KHỞI TẠO =========
 document.addEventListener("DOMContentLoaded", init);
 
 function init(){
@@ -115,7 +120,6 @@ function init(){
 }
 
 // ========= NAVIGATION =========
-
 function bindNav(){
   $$(".nav-link[data-nav]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
@@ -168,6 +172,12 @@ function showView(hash){
     return showView("#home");
   }
 
+  // Chặn vào #home / #thanks khi chưa đăng nhập
+  if ((id === "home" || id === "thanks") && !state.user){
+    alert("Bạn cần đăng nhập trước.");
+    return showView("#login");
+  }
+
   const el = document.getElementById(id);
   if(el){
     el.classList.add("show");
@@ -198,8 +208,8 @@ function bindLogin(){
   form.addEventListener("submit", (e)=>{
     e.preventDefault();
 
-    const username = $("#username").value.trim();
-    const password = $("#password").value.trim();   // quan trọng!
+    const username = $("#username")?.value?.trim() || "";
+    const password = $("#password")?.value?.trim() || "";
     const msg = $("#loginMsg");
 
     const u = USERS[username];
@@ -208,11 +218,12 @@ function bindLogin(){
       state.role = u.role;
       state.displayName = u.name || username;
 
-      if ($("#rememberMe").checked){
+      const rememberEl = $("#rememberMe");
+      if (rememberEl?.checked){
         localStorage.setItem("sessionUser", username);
       }
 
-      msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
+      if (msg) msg.textContent = "Đăng nhập thành công! Đang mở thiệp...";
 
       // 🔊 phát nhạc YouTube 1 lần
       playMusicOnce();
@@ -221,7 +232,7 @@ function bindLogin(){
       showView("#home");
       setTimeout(launchWelcomeCard, 200);
     } else {
-      msg.textContent = "Sai tên đăng nhập hoặc mật khẩu.";
+      if (msg) msg.textContent = "Sai tên đăng nhập hoặc mật khẩu.";
     }
   });
 }
@@ -247,7 +258,6 @@ function bindLogout(){
 }
 
 // ========= HOME: THIỆP & FORM TỔNG =========
-
 function bindHomeFlow(){
   // Hiện card details
   $("#seeMoreBtn")?.addEventListener("click", ()=>{
@@ -257,14 +267,22 @@ function bindHomeFlow(){
 
   // Nút Hoàn thành – gom tất cả lựa chọn
   $("#homeCompleteBtn")?.addEventListener("click", async ()=>{
-    ensureLogged();
     const msg = $("#submitMsg");
-    msg.textContent = "";
+    if (msg) msg.textContent = "";
+
+    // Bắt lỗi chưa đăng nhập ngay từ đầu
+    try{
+      ensureLogged();
+    }catch(e){
+      if (msg) msg.textContent = "Bạn cần đăng nhập trước.";
+      showView("#login");
+      return;
+    }
 
     // 1. RSVP
     const rsvpInput = $$("#details input[name='rsvp']").find(i => i.checked);
     if(!rsvpInput){
-      msg.textContent = "Hãy chọn bạn có đi hay không nhé.";
+      if (msg) msg.textContent = "Hãy chọn bạn có đi hay không nhé.";
       return;
     }
     const rsvpVal = rsvpInput.value;
@@ -274,7 +292,7 @@ function bindHomeFlow(){
     if (rsvpVal === "Đi") {
       foodInput = $$("#details input[name='foodHome']").find(i => i.checked);
       if(!foodInput){
-        msg.textContent = "Hãy chọn một quán ăn bạn thích.";
+        if (msg) msg.textContent = "Hãy chọn một quán ăn bạn thích.";
         return;
       }
     }
@@ -284,7 +302,7 @@ function bindHomeFlow(){
     if (rsvpVal === "Đi") {
       groupInput = $$("#details input[name='group']").find(i => i.checked);
       if(!groupInput){
-        msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
+        if (msg) msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
         return;
       }
     }
@@ -294,15 +312,15 @@ function bindHomeFlow(){
     if (rsvpVal === "Đi") {
       timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
       if(!timeInput){
-        msg.textContent = "T bận lắm, hãy chọn 1 trong 4 khung giờ nhé 😆.";
+        if (msg) msg.textContent = "T bận lắm, hãy chọn 1 trong 4 khung giờ nhé 😆.";
         return;
       }
     }
 
     // 3.5 Gmail (luôn yêu cầu)
-    const email = $("#homeEmail")?.value.trim();
+    const email = $("#homeEmail")?.value?.trim() || "";
     if(!email){
-      msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
+      if (msg) msg.textContent = "Hãy nhập Gmail để mình gửi thiệp cho bạn.";
       return;
     }
 
@@ -319,20 +337,25 @@ function bindHomeFlow(){
     state.email    = email;
     state.notes    = notes || null;
 
-    msg.textContent = "Đang lưu thông tin...";
+    // Kiểm tra cấu hình Web App trước khi gửi
+    if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")){
+      if (msg) msg.textContent = "Chưa cấu hình Web App – không thể lưu.";
+      return;
+    }
+
+    if (msg) msg.textContent = "Đang lưu thông tin...";
 
     try{
       await sendAll();
-      msg.textContent = "Đã lưu! Cảm ơn bạn 💖";
+      if (msg) msg.textContent = "Đã lưu! Cảm ơn bạn 💖";
       try{ window.confetti && window.confetti({particleCount:120, spread:80}); }catch(e){}
       setTimeout(()=> showView("#thanks"), 700);
     }catch(err){
       console.error(err);
-      msg.textContent = "Lưu chưa thành công, bạn thử lại nhé.";
+      if (msg) msg.textContent = "Lưu chưa thành công, bạn thử lại nhé.";
     }
   });
 }
-
 
 // Confetti + chữ gõ
 function launchWelcomeCard(){
@@ -372,15 +395,20 @@ function bindStats(){
   $("#sendGroupRieng")?.addEventListener("click", () => sendGroupInvites("rieng"));
 }
 
+// Stub tránh lỗi nếu người dùng ấn nút gửi nhóm
+async function sendGroupInvites(group){
+  alert("(demo) Gửi lời mời cho nhóm: " + group + "\nTính năng này chưa được triển khai server-side.");
+}
+
 async function loadStats(){
   const msg = $("#statsMsg");
 
   if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")){
-    msg.textContent = "Chưa cấu hình EMAIL_WEBAPP_URL.";
+    if (msg) msg.textContent = "Chưa cấu hình EMAIL_WEBAPP_URL.";
     return;
   }
 
-  msg.textContent = "Đang tải thống kê...";
+  if (msg) msg.textContent = "Đang tải thống kê...";
 
   // JSONP callback
   const cb = "__stats_cb_" + Math.random().toString(36).slice(2);
@@ -400,12 +428,21 @@ async function loadStats(){
       }
 
       // tổng số
-      $("#statTotal").textContent = data.summary?.total ?? 0;
-      $("#statYes").textContent   = data.summary?.rsvp?.["Đi"] ?? 0;
-      $("#statNo").textContent    = data.summary?.rsvp?.["Không đi"] ?? 0;
-      $("#statMaybe").textContent = data.summary?.rsvp?.["Chưa chắc"] ?? 0;
+      const totalEl = $("#statTotal");
+      const yesEl   = $("#statYes");
+      const noEl    = $("#statNo");
+      const maybeEl = $("#statMaybe");
+
+      if (totalEl) totalEl.textContent = data.summary?.total ?? 0;
+      if (yesEl)   yesEl.textContent   = data.summary?.rsvp?.["Đi"] ?? 0;
+      if (noEl)    noEl.textContent    = data.summary?.rsvp?.["Không đi"] ?? 0;
+      if (maybeEl) maybeEl.textContent = data.summary?.rsvp?.["Chưa chắc"] ?? 0;
 
       const tb = $("#statsTable tbody");
+      if (!tb){
+        if (msg) msg.textContent = "Thiếu bảng thống kê trong HTML.";
+        return;
+      }
       tb.innerHTML = "";
       (data.rows || []).forEach(r=>{
         const tr = document.createElement("tr");
@@ -413,26 +450,26 @@ async function loadStats(){
           <td>${escapeHtml(r.displayName || r.username || "")}</td>
           <td>${escapeHtml(r.rsvp || "")}</td>
           <td>${escapeHtml(r.food || "")}</td>
-          <td>${escapeHtml(r.group || "")}</td>      <!-- Nhóm -->
+          <td>${escapeHtml(r.group || "")}</td>
           <td>${escapeHtml(r.freeDate || "")}</td>
           <td>${escapeHtml(r.freeTime || "")}</td>
-          <td>${escapeHtml(r.email || "")}</td>      <!-- Gmail -->
+          <td>${escapeHtml(r.email || "")}</td>
           <td>${escapeHtml(r.notes || "")}</td>
           <td>${escapeHtml(r.updatedAt || "")}</td>`;
         tb.appendChild(tr);
       });
 
-      msg.textContent = "";
+      if (msg) msg.textContent = "";
     }catch(err){
       console.error(err);
-      msg.textContent = "Không tải được thống kê. Kiểm tra Apps Script & ADMIN_KEY.";
+      if (msg) msg.textContent = "Không tải được thống kê. Kiểm tra Apps Script & ADMIN_KEY.";
     }finally{
       cleanup();
     }
   };
 
   s.onerror = function(){
-    msg.textContent = "Không tải được thống kê (lỗi mạng).";
+    if (msg) msg.textContent = "Không tải được thống kê (lỗi mạng).";
     cleanup();
   };
 
@@ -444,9 +481,7 @@ async function loadStats(){
   }
 }
 
-
 // ========= GỬI DỮ LIỆU LÊN APPS SCRIPT =========
-
 function ensureLogged(){
   if(!state.user){
     throw new Error("Chưa đăng nhập");
@@ -463,7 +498,7 @@ function payloadBase(){
   };
 }
 
-// Gửi tạm từng phần (hiện tại không còn dùng nhiều, nhưng giữ cho tương thích)
+// Gửi tạm từng phần (giữ cho tương thích)
 async function sendPartial(type){
   if(!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")) return;
 
@@ -481,7 +516,7 @@ async function sendPartial(type){
     await fetch(EMAIL_WEBAPP_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      headers: {"Content-Type": "text/plain"}, // simple request
       body: JSON.stringify(data)
     });
   }catch(err){
@@ -507,7 +542,7 @@ async function sendAll(){
     await fetch(EMAIL_WEBAPP_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      headers: {"Content-Type": "text/plain"}, // simple request
       body: JSON.stringify(data)
     });
   }catch(err){
@@ -517,7 +552,6 @@ async function sendAll(){
 }
 
 // ========= TIỆN ÍCH =========
-
 function escapeHtml(s){
   return String(s || "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
