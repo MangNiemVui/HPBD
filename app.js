@@ -444,26 +444,35 @@ async function loadStats(){
       if (maybeEl) maybeEl.textContent = data.summary?.rsvp?.["Chưa chắc"] ?? 0;
 
       const tb = $("#statsTable tbody");
-      if (!tb){
-        if (msg) msg.textContent = "Thiếu bảng thống kê trong HTML.";
-        return;
-      }
-      tb.innerHTML = "";
-      (data.rows || []).forEach(r=>{
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${escapeHtml(r.displayName || r.username || "")}</td>
-          <td>${escapeHtml(r.rsvp || "")}</td>
-          <td>${escapeHtml(r.food || "")}</td>
-          <td>${escapeHtml(r.group || "")}</td>
-          <td>${escapeHtml(r.freeDate || "")}</td>
-          <td>${escapeHtml(r.freeTime || "")}</td>
-          <td>${escapeHtml(r.email || "")}</td>
-          <td>${escapeHtml(r.notes || "")}</td>
-          <td>${escapeHtml(r.updatedAt || "")}</td>`;
-        tb.appendChild(tr);
-      });
+if (!tb){
+  if (msg) msg.textContent = "Thiếu bảng thống kê trong HTML.";
+  return;
+}
+tb.innerHTML = "";
+(data.rows || []).forEach(r=>{
+  const tr = document.createElement("tr");
 
+  // Gộp freeDate + freeTime thành 1 chuỗi
+  let slot = "";
+  if (r.freeTime && r.freeDate) {
+    slot = r.freeDate + " – " + r.freeTime;
+  } else if (r.freeTime) {
+    slot = r.freeTime;
+  } else if (r.freeDate) {
+    slot = r.freeDate;
+  }
+
+  tr.innerHTML = `
+    <td>${escapeHtml(r.displayName || r.username || "")}</td>
+    <td>${escapeHtml(r.rsvp || "")}</td>
+    <td>${escapeHtml(r.food || "")}</td>
+    <td>${escapeHtml(r.group || "")}</td>
+    <td>${escapeHtml(slot)}</td>                    <!-- Khung giờ -->
+    <td>${escapeHtml(r.email || "")}</td>
+    <td>${escapeHtml(r.notes || "")}</td>
+    <td>${escapeHtml(r.updatedAt || "")}</td>`;     <!-- Cập nhật -->
+  tb.appendChild(tr);
+});
       if (msg) msg.textContent = "";
     }catch(err){
       console.error(err);
