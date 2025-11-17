@@ -2,7 +2,7 @@
 const OWNER_EMAIL = "phanthu27112002@gmail.com";
 
 // Thay bằng URL Web App của Google Apps Script (bạn triển khai ở bước 4)
-const EMAIL_WEBAPP_URL = "PASTE_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE";
+const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyVnA6kslty5yETC62mOvJd8puc2F3EHZav6FCjZlgL8B-_ropc-H_yciS6sbRNZgay/exec";
 
 // Thông tin sự kiện - sửa lại cho đúng lịch & địa điểm thực tế
 const EVENT = {
