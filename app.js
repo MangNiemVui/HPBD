@@ -267,6 +267,9 @@ function bindHomeFlow(){
     const rsvpVal = rsvpInput.value;
 
     let foodInput = null;
+    let groupInput = null;
+    let timeInput = null;
+
     if (rsvpVal === "Đi") {
       foodInput = $$("#details input[name='foodHome']").find(i => i.checked);
       if(!foodInput){
@@ -274,20 +277,17 @@ function bindHomeFlow(){
         return;
       }
 
-      var groupInput = $$("#details input[name='group']").find(i => i.checked);
+      groupInput = $$("#details input[name='group']").find(i => i.checked);
       if(!groupInput){
         if (msg) msg.textContent = "Hãy chọn nhóm bạn muốn đi chung nhé.";
         return;
       }
 
-      var timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
+      timeInput = $$("#details input[name='timeSlot']").find(i => i.checked);
       if(!timeInput){
         if (msg) msg.textContent = "T bận lắm, hãy chọn 1 trong 4 khung giờ nhé 😆.";
         return;
       }
-    } else {
-      groupInput = null;
-      timeInput = null;
     }
 
     const email = $("#homeEmail")?.value?.trim() || "";
@@ -427,8 +427,16 @@ async function loadStats(){
           <td>${escapeHtml(slot)}</td>
           <td>${escapeHtml(r.email || "")}</td>
           <td>${escapeHtml(r.notes || "")}</td>
-          <td>${escapeHtml(r.updatedAt || "")}</td>`;
+          <td>${escapeHtml(r.updatedAt || "")}</td>
+          <td><button type="button" class="btn btn-secondary btn-delete">Xóa</button></td>`;
         tb.appendChild(tr);
+
+        const btn = tr.querySelector(".btn-delete");
+        if (btn) {
+          btn.addEventListener("click", () => {
+            deleteRsvp(r.username);
+          });
+        }
       });
 
       if (msg) msg.textContent = "";
@@ -442,6 +450,73 @@ async function loadStats(){
 
   s.onerror = function(){
     if (msg) msg.textContent = "Không tải được thống kê (lỗi mạng).";
+    cleanup();
+  };
+
+  document.body.appendChild(s);
+
+  function cleanup(){
+    try{ delete window[cb]; }catch(e){}
+    try{ s.remove(); }catch(e){}
+  }
+}
+
+// XÓA DỮ LIỆU MỘT TÀI KHOẢN (CHỈ CHỦ SỞ HỮU)
+async function deleteRsvp(username){
+  const msg = $("#statsMsg");
+  if (msg) msg.textContent = "";
+
+  if (!EMAIL_WEBAPP_URL || EMAIL_WEBAPP_URL.startsWith("PASTE_")){
+    if (msg) msg.textContent = "Chưa cấu hình EMAIL_WEBAPP_URL.";
+    return;
+  }
+
+  if (state.role !== "owner"){
+    alert("Chỉ chủ sở hữu mới được xóa dữ liệu.");
+    return;
+  }
+
+  if (!username){
+    alert("Không xác định được tài khoản để xóa.");
+    return;
+  }
+
+  if (!confirm("Bạn chắc chắn muốn xóa dữ liệu của tài khoản '" + username + "'?")){
+    return;
+  }
+
+  if (msg) msg.textContent = "Đang xóa dữ liệu của " + username + "...";
+
+  const cb  = "__del_cb_" + Math.random().toString(36).slice(2);
+  const url = EMAIL_WEBAPP_URL
+    + "?action=delete"
+    + "&adminKey=" + encodeURIComponent(ADMIN_KEY)
+    + "&username=" + encodeURIComponent(username)
+    + "&callback=" + cb;
+
+  const s = document.createElement("script");
+  s.src = url;
+  s.async = true;
+
+  window[cb] = function(data){
+    try{
+      if (!data || !data.ok){
+        throw new Error(data && data.error || "delete_failed");
+      }
+      if (msg) msg.textContent = "Đã xóa " + (data.username || username)
+        + " (" + (data.deleted || 1) + " dòng).";
+      // tải lại bảng sau khi xóa
+      loadStats();
+    }catch(err){
+      console.error(err);
+      if (msg) msg.textContent = "Không xóa được (lỗi: " + err.message + ").";
+    }finally{
+      cleanup();
+    }
+  };
+
+  s.onerror = function(){
+    if (msg) msg.textContent = "Không xóa được (lỗi mạng).";
     cleanup();
   };
 
