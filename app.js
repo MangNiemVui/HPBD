@@ -1,7 +1,7 @@
 // ========= CẤU HÌNH =========
 
 const OWNER_EMAIL = "phanthu27112002@gmail.com";
-const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxwGGVPIQ05DjcW-KGpX-Gb4OH53RZLbf1YeQ7ks2wtScnZS7rMoY0wcnhKws51fA_C/exec";
+const EMAIL_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzPmgVCCMeoxVw926K-OazUrJjFAyKI6Qc-1WyV-GRk33e5npVR0xqHZmropgOECU/exec";
 const ADMIN_KEY = "29090302";
 
 const EVENT = {
