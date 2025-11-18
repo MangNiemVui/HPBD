@@ -12,7 +12,7 @@ const EVENT = {
 
 const USERS = {
   "bethucute":  { pw: "29090302", role: "owner", name: "Chủ sở hữu" },
-  "ethreal": { pw: "29092003", role: "guest", name: "Anh Quỳnh" },
+  "ethereal": { pw: "29092003", role: "guest", name: "Anh Quỳnh" },
   "yellowperson": { pw: "07102002", role: "guest", name: "Hồng Nhung" },
   "cogaitamlinh": { pw: "11102002", role: "guest", name: "Nguyễn Ngọc" },
   "dangthu": { pw: "15122003", role: "guest", name: "Đặng Thư" },
