@@ -6,7 +6,7 @@ const ADMIN_KEY = "29090302";
 
 const EVENT = {
   name: "Sinh nhật Phan Ánh Ngọc Thư",
-  timeText: "Dự kiến 28/11/2025",
+  timeText: "Chưa chốt (chọn đi)",
   addressText: "Chưa chốt (từ từ đi mấy bé)"
 };
 
