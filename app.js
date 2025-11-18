@@ -18,7 +18,7 @@ const USERS = {
   "dangthu": { pw: "15122003", role: "guest", name: "Đặng Thư" },
   "cholongnach": { pw: "02032002", role: "guest", name: "Linh Nhi" },
   "nguyenthu": { pw: "12062002", role: "guest", name: "Minh Thư" },
-  "nhuy": { pw: "29012004", role: "guest", name: "Như Ý" },
+  "nhuy": { pw: "28012004", role: "guest", name: "Như Ý" },
   "baodepgai": { pw: "02052003", role: "guest", name: "Huỳnh Như" },
   "chidep": { pw: "08112001", role: "guest", name: "Tường Di" },
   "cotbao": { pw: "22122002", role: "guest", name: "Bùi Ngọc Tiến" },
