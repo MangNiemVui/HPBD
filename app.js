@@ -27,8 +27,8 @@ const USERS = {
   "thuyhiencocuocgoikhac":{ pw: "23032001", role: "guest", name: "Thúy Hiền" },
   "lovisong2":{ pw: "22052000", role: "guest", name: "Như Ngọc" },
   "baisau": { pw: "07052002", role: "guest", name: "Thảo chó" },
-  "chanh": { pw: "02072002", role: "guest", name: "Châu Anh" },
-  "congai": { pw: "07052002", role: "guest", name: "Minh Thư" },
+  "chanhiu": { pw: "02072002", role: "guest", name: "Châu Anh" },
+  "congai": { pw: "18092006", role: "guest", name: "Minh Thư" },
   "sapdautrunghi": { pw: "13072002", role: "guest", name: "Cát Tường" },
   "lemon": { pw: "21062002", role: "guest", name: "Mỹ Anh" },
   "giaquy": { pw: "26092002", role: "guest", name: "Gia Quý" }
