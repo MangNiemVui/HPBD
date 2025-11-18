@@ -24,7 +24,7 @@ const USERS = {
   "cotbao": { pw: "22122002", role: "guest", name: "Bùi Ngọc Tiến" },
   "xuanmai": { pw: "16062003", role: "guest", name: "Xuân Mai" },
   "tramkelly": { pw: "23032001", role: "guest", name: "Trâm Kelly" },
-  "thuyhiencocuocgoikhac":{ pw: "23032001", role: "guest", name: "Thúy Hiền" },
+  "thuyhiencocuocgoikhac":{ pw: "18122002", role: "guest", name: "Thúy Hiền" },
   "lovisong2":{ pw: "22052000", role: "guest", name: "Như Ngọc" },
   "baisau": { pw: "07052002", role: "guest", name: "Thảo chó" },
   "chanhiu": { pw: "02072002", role: "guest", name: "Châu Anh" },
