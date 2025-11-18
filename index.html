@@ -51,15 +51,22 @@
               <input id="password" name="password" type="password" required placeholder="••••" autocomplete="current-password" />
               <button type="button" id="togglePassword" class="toggle-pass" aria-label="Hiện/ẩn mật khẩu">👁</button>
             </div>
-
-            <div class="login-row">
-              <label class="inline">
-                <input type="checkbox" id="rememberMe" /> Ghi nhớ tôi trên máy này
-              </label>
-              <button type="submit" class="btn btn-primary">Đăng nhập</button>
-            </div>
-
-            <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
+                   <div class="login-row">
+            <label class="inline">
+              <input type="checkbox" id="rememberMe" /> Ghi nhớ tôi trên máy này
+            </label>
+            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          </div>
+          
+          <!-- 2 dòng ví dụ tài khoản -->
+          <p class="muted" style="margin:4px 0 0 0;font-size:0.9rem;">
+            Ví dụ tài khoản đăng nhập:
+          </p>
+          <p class="muted" style="margin:0;font-size:0.9rem;">
+            Tên đăng nhập: <strong>bethucute</strong> &nbsp;–&nbsp; Mật khẩu: <strong>27112002</strong>
+          </p>
+          
+          <p id="loginMsg" class="msg" role="alert" aria-live="polite"></p>
           </form>
         </div>
       </div>
@@ -110,6 +117,7 @@
           <label><input type="radio" name="foodHome" value="Nhậu" /> Nhậu</label>
           <label><input type="radio" name="foodHome" value="Hàn" /> Hàn</label>
           <label><input type="radio" name="foodHome" value="Việt" /> Việt</label>
+          <label><input type="radio" name="foodHome" value="Âu" /> Âu</label>
         </div>
 
         <hr class="divider">
